@@ -1,0 +1,39 @@
+---
+interface Props {
+  src: string;
+  alt?: string;
+  title?: string;
+  caption?: string;
+  width?: number;
+  height?: number;
+  loading?: 'lazy' | 'eager';
+}
+
+const { 
+  src, 
+  alt = '', 
+  title, 
+  caption, 
+  width, 
+  height, 
+  loading = 'lazy' 
+} = Astro.props;
+
+const finalCaption = caption ?? title;
+---
+
+<figure class="my-8">
+  <img
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
+    loading={loading}
+    class="w-full rounded-lg border border-border"
+  />
+  {finalCaption && (
+    <figcaption class="mt-3 text-sm text-muted-foreground text-center">
+      {finalCaption}
+    </figcaption>
+  )}
+</figure>

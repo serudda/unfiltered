@@ -1,0 +1,79 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+/* Font smoothing for better text rendering */
+* {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+	/* Primary colors */
+	--primary-50: oklch(97.441% 0.0134 240.95);
+	--primary-100: oklch(94.632% 0.0279 243.1);
+	--primary-200: oklch(89.128% 0.0608 237.24);
+	--primary-300: oklch(81.213% 0.1106 235.27);
+	--primary-400: oklch(73.64% 0.1537 238.92);
+	--primary-500: oklch(68.463% 0.1769 246.21);
+	--primary-600: oklch(57.449% 0.1633 250.16);
+	--primary-700: oklch(48.678% 0.1404 250.7);
+	--primary-800: oklch(42.992% 0.1184 248.94);
+	--primary-900: oklch(38.099% 0.0987 248.12);
+	--primary-950: oklch(28.39% 0.075 249.95);
+}
+
+@theme {
+	--font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
+		"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+	/* Primary colors */
+	--color-primary-50: var(--primary-50);
+	--color-primary-100: var(--primary-100);
+	--color-primary-200: var(--primary-200);
+	--color-primary-300: var(--primary-300);
+	--color-primary-400: var(--primary-400);
+	--color-primary-500: var(--primary-500);
+	--color-primary-600: var(--primary-600);
+	--color-primary-700: var(--primary-700);
+	--color-primary-800: var(--primary-800);
+	--color-primary-900: var(--primary-900);
+	--color-primary-950: var(--primary-950);
+
+	/* shadcn/ui variables */
+	--color-background: var(--color-zinc-950);
+	--color-foreground: var(--color-zinc-50);
+	--color-card: var(--color-zinc-950);
+	--color-card-foreground: var(--color-zinc-50);
+	--color-popover: var(--color-zinc-950);
+	--color-popover-foreground: var(--color-zinc-50);
+	--primary: var(--color-blue-600);
+	--color-primary-foreground: var(--color-white);
+	--color-secondary: var(--color-zinc-800);
+	--color-secondary-foreground: var(--color-zinc-50);
+	--color-muted: var(--color-zinc-900);
+	--color-muted-foreground: var(--color-zinc-500);
+	--color-accent: var(--color-zinc-900);
+	--color-accent-foreground: var(--color-zinc-50);
+	--color-destructive: var(--color-red-600);
+	--color-destructive-foreground: var(--color-white);
+	--color-border: var(--color-zinc-800);
+	--color-input: var(--color-zinc-800);
+	--color-ring: var(--color-zinc-600);
+
+	--dashed-border-color: var(--color-zinc-800);
+}
+
+/* Custom dashed border utility */
+.border-dashed-wide {
+	background-image: linear-gradient(
+			to bottom,
+			var(--dashed-border-color) 40%,
+			transparent 40%
+		),
+		linear-gradient(to bottom, var(--dashed-border-color) 40%, transparent 40%),
+		linear-gradient(to bottom, var(--color-background), var(--color-background));
+	background-size: 1px 20px, 1px 20px, 100% 100%;
+	background-position: left top, right top, center;
+	background-repeat: repeat-y, repeat-y, no-repeat;
+}

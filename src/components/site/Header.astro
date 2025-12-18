@@ -1,0 +1,61 @@
+---
+interface Props {
+  lang: 'es' | 'en';
+}
+
+const { lang } = Astro.props;
+
+const navItems = [
+  { 
+    href: `/${lang}`, 
+    label: lang === 'es' ? 'Inicio' : 'Home' 
+  },
+  { 
+    href: `/${lang}/posts`, 
+    label: 'Posts' 
+  },
+  { 
+    href: `/${lang}/notes`, 
+    label: lang === 'es' ? 'Notas' : 'Notes' 
+  },
+];
+
+const alternateLang = lang === 'es' ? 'en' : 'es';
+const currentPath = Astro.url.pathname;
+const alternatePath = currentPath.replace(`/${lang}`, `/${alternateLang}`);
+---
+
+<header class="border-b border-border">
+  <nav class="container-narrow py-6">
+    <div class="flex items-center justify-between">
+      <!-- Site Name / Logo -->
+      <a 
+        href={`/${lang}`} 
+        class="text-xl font-semibold no-underline hover:text-muted-foreground transition-colors"
+      >
+        Unfiltered
+      </a>
+      
+      <!-- Navigation -->
+      <div class="flex items-center gap-6">
+        {navItems.map((item) => (
+          <a
+            href={item.href}
+            class="text-sm no-underline text-muted-foreground hover:text-link transition-colors"
+          >
+            {item.label}
+          </a>
+        ))}
+        
+        <!-- Language Toggle -->
+        <a
+          href={alternatePath}
+          class="text-sm no-underline text-muted-foreground hover:text-link transition-colors"
+          title={lang === 'es' ? 'Switch to English' : 'Cambiar a Español'}
+        >
+          {alternateLang === 'es' ? '🇪🇸' : '🇺🇸'}
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>

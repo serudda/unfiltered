@@ -1,0 +1,92 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from './Layout.astro';
+import Header from '@/components/site/Header.astro';
+import Footer from '@/components/site/Footer.astro';
+
+interface Props {
+  frontmatter: CollectionEntry<'posts_es' | 'posts_en'>['data'];
+  canonical: string;
+  alternateUrl?: string;
+  alternateLang?: 'es' | 'en';
+}
+
+const { frontmatter, canonical, alternateUrl, alternateLang } = Astro.props;
+
+// Format date
+const dateFormatter = new Intl.DateTimeFormat(
+  frontmatter.lang === 'es' ? 'es-ES' : 'en-US',
+  { year: 'numeric', month: 'long', day: 'numeric' }
+);
+const formattedDate = dateFormatter.format(frontmatter.date);
+---
+
+<BaseLayout
+  title={frontmatter.title}
+  description={frontmatter.description}
+  canonical={canonical}
+  lang={frontmatter.lang}
+  alternateUrl={alternateUrl}
+  alternateLang={alternateLang}
+>
+  <Header lang={frontmatter.lang} />
+  
+  <main class="container-narrow py-12">
+    <article>
+      <!-- Post Header -->
+      <header class="mb-12">
+        <h1 class="mb-4">{frontmatter.title}</h1>
+        
+        <div class="flex flex-wrap items-center gap-4 text-sm text-[hsl(var(--muted-foreground))]">
+          <time datetime={frontmatter.date.toISOString()}>
+            {formattedDate}
+          </time>
+          
+          {frontmatter.tags.length > 0 && (
+            <>
+              <span aria-hidden="true">·</span>
+              <div class="flex flex-wrap gap-2">
+                {frontmatter.tags.map((tag) => (
+                  <span class="rounded-full bg-[hsl(var(--muted))] px-3 py-1">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+        
+        {/* Language Switch */}
+        {alternateUrl && alternateLang && (
+          <div class="mt-6">
+            <a 
+              href={alternateUrl} 
+              class="text-sm text-muted-foreground hover:text-link"
+            >
+              {alternateLang === 'es' ? '🇪🇸 Leer en español' : '🇺🇸 Read in English'}
+            </a>
+          </div>
+        )}
+      </header>
+      
+      <!-- Post Content -->
+      <div class="prose">
+        <slot />
+      </div>
+      
+      <!-- Optional: Audio Narration -->
+      {frontmatter.audio && frontmatter.audio[frontmatter.lang] && (
+        <div class="mt-12 pt-8 border-t border-[hsl(var(--border))]">
+          <h2 class="text-xl mb-4">
+            {frontmatter.lang === 'es' ? '🎧 Escuchar' : '🎧 Listen'}
+          </h2>
+          <audio controls class="w-full" preload="metadata">
+            <source src={frontmatter.audio[frontmatter.lang]} type="audio/mpeg" />
+          </audio>
+        </div>
+      )}
+    </article>
+  </main>
+  
+  <Footer lang={frontmatter.lang} />
+</BaseLayout>

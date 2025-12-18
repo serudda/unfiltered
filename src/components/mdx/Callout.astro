@@ -1,0 +1,30 @@
+---
+interface Props {
+  variant?: 'note' | 'warning' | 'tip' | 'caution';
+}
+
+const { variant = 'note' } = Astro.props;
+
+const variantStyles = {
+  note: 'border-blue-500/30 bg-blue-500/5',
+  warning: 'border-yellow-500/30 bg-yellow-500/5',
+  tip: 'border-green-500/30 bg-green-500/5',
+  caution: 'border-red-500/30 bg-red-500/5',
+};
+
+const variantIcons = {
+  note: 'ℹ️',
+  warning: '⚠️',
+  tip: '💡',
+  caution: '🚨',
+};
+---
+
+<div class={`my-6 rounded-lg border p-4 ${variantStyles[variant]}`}>
+  <div class="flex items-start gap-3">
+    <span class="text-xl" aria-hidden="true">{variantIcons[variant]}</span>
+    <div class="flex-1 prose-sm">
+      <slot />
+    </div>
+  </div>
+</div>

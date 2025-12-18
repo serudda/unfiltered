@@ -1,0 +1,39 @@
+---
+type Props =
+  | { provider: 'youtube'; id: string; title?: string }
+  | { provider: 'vimeo'; id: string; title?: string }
+  | { src: string; title?: string };
+
+const props = Astro.props as Props;
+
+let embedUrl: string | null = null;
+
+if ('provider' in props) {
+  embedUrl =
+    props.provider === 'youtube'
+      ? `https://www.youtube-nocookie.com/embed/${props.id}`
+      : `https://player.vimeo.com/video/${props.id}`;
+}
+---
+
+<div class="my-8 overflow-hidden rounded-lg border border-border">
+  {embedUrl ? (
+    <iframe
+      src={embedUrl}
+      title={props.title ?? 'Video'}
+      loading="lazy"
+      class="aspect-video w-full"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    />
+  ) : (
+    <video 
+      controls 
+      class="w-full" 
+      preload="metadata"
+    >
+      <source src={(props as { src: string }).src} />
+      Tu navegador no soporta el elemento de video.
+    </video>
+  )}
+</div>

@@ -1,0 +1,19 @@
+---
+interface Props {
+  href?: string;
+  [key: string]: any;
+}
+
+const { href = '', ...rest } = Astro.props;
+const isExternal = typeof href === 'string' && /^https?:\/\//.test(href);
+---
+
+<a
+  href={href}
+  {...rest}
+  rel={isExternal ? 'noreferrer noopener' : undefined}
+  target={isExternal ? '_blank' : undefined}
+  class="text-link underline decoration-link/30 underline-offset-4 transition-colors duration-200 hover:text-link-hover hover:decoration-link-hover/50"
+>
+  <slot />
+</a>

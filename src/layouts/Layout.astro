@@ -1,0 +1,68 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  canonical?: string;
+  ogImage?: string;
+  lang?: 'es' | 'en';
+  alternateUrl?: string;
+  alternateLang?: 'es' | 'en';
+}
+
+const {
+  title,
+  description = 'Un espacio para compartir pensamientos, ideas y aprendizajes.',
+  canonical,
+  ogImage = '/og-image.jpg',
+  lang = 'es',
+  alternateUrl,
+  alternateLang,
+} = Astro.props;
+
+const siteName = 'Unfiltered';
+const defaultTitle = `${title} — ${siteName}`;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    
+    <!-- Primary Meta Tags -->
+    <title>{defaultTitle}</title>
+    <meta name="title" content={defaultTitle} />
+    {description && <meta name="description" content={description} />}
+    
+    <!-- Canonical URL -->
+    {canonical && <link rel="canonical" href={canonical} />}
+    
+    <!-- Language Alternates -->
+    {alternateUrl && alternateLang && (
+      <link rel="alternate" hreflang={alternateLang} href={alternateUrl} />
+    )}
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta property="og:title" content={defaultTitle} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:site_name" content={siteName} />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    {canonical && <meta name="twitter:url" content={canonical} />}
+    <meta name="twitter:title" content={defaultTitle} />
+    {description && <meta name="twitter:description" content={description} />}
+    <meta name="twitter:image" content={ogImage} />
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/src/styles/global.css" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

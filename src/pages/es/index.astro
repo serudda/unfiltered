@@ -1,0 +1,87 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/Layout.astro';
+import Header from '@/components/site/Header.astro';
+import Footer from '@/components/site/Footer.astro';
+import { formatDate } from '@/utils/dates';
+import { generateCanonicalUrl } from '@/utils/seo';
+
+const posts = (await getCollection('posts_es', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+})).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const canonical = generateCanonicalUrl('/es');
+---
+
+<BaseLayout
+  title="Inicio"
+  description="Un espacio para compartir pensamientos, ideas y aprendizajes."
+  canonical={canonical}
+  lang="es"
+  alternateUrl={generateCanonicalUrl('/en')}
+  alternateLang="en"
+>
+  <Header lang="es" />
+  
+  <main class="container-narrow py-12">
+    <header class="mb-12">
+      <h1 class="mb-4">Hola 👋</h1>
+      <p class="text-xl text-[hsl(var(--muted-foreground))]">
+        Este es mi espacio personal para compartir pensamientos, ideas, tristezas, dolores y logros.
+      </p>
+    </header>
+    
+    <!-- Posts List -->
+    <section>
+      <h2 class="text-2xl font-semibold mb-8">Posts Recientes</h2>
+      
+      {posts.length === 0 ? (
+        <p class="text-[hsl(var(--muted-foreground))]">
+          Aún no hay posts publicados.
+        </p>
+      ) : (
+        <ul class="space-y-8 list-none ml-0">
+          {posts.map((post) => (
+            <li>
+              <article>
+                <a 
+                  href={`/es/posts/${post.slug}`}
+                  class="group block no-underline"
+                >
+                  <time 
+                    datetime={post.data.date.toISOString()}
+                    class="text-sm text-[hsl(var(--muted-foreground))] mb-2 block"
+                  >
+                    {formatDate(post.data.date, 'es')}
+                  </time>
+                  
+                  <h3 class="text-2xl font-semibold mb-2 group-hover:text-[hsl(var(--link))] transition-colors">
+                    {post.data.title}
+                  </h3>
+                  
+                  {post.data.description && (
+                    <p class="text-[hsl(var(--muted-foreground))] m-0">
+                      {post.data.description}
+                    </p>
+                  )}
+                  
+                  {post.data.tags.length > 0 && (
+                    <div class="flex flex-wrap gap-2 mt-3">
+                      {post.data.tags.map((tag) => (
+                        <span class="text-xs rounded-full bg-[hsl(var(--muted))] px-2 py-1">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </a>
+              </article>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+  </main>
+  
+  <Footer lang="es" />
+</BaseLayout>
