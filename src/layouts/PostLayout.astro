@@ -3,6 +3,8 @@ import type { CollectionEntry } from 'astro:content';
 import BaseLayout from './Layout.astro';
 import Header from '@/components/site/Header.astro';
 import Footer from '@/components/site/Footer.astro';
+import { getRelativeTime } from '@/utils/date';
+import { SITE_LINKS } from '@/constants/links';
 
 interface Props {
   frontmatter: CollectionEntry<'posts_es' | 'posts_en'>['data'];
@@ -14,11 +16,20 @@ interface Props {
 const { frontmatter, canonical, alternateUrl, alternateLang } = Astro.props;
 
 // Format date
-const dateFormatter = new Intl.DateTimeFormat(
-  frontmatter.lang === 'es' ? 'es-ES' : 'en-US',
-  { year: 'numeric', month: 'long', day: 'numeric' }
-);
-const formattedDate = dateFormatter.format(frontmatter.date);
+// Format date: "Diciembre 17, 2025"
+const dateObj = new Date(frontmatter.date);
+const day = dateObj.getDate();
+const year = dateObj.getFullYear();
+const month = dateObj.toLocaleDateString(frontmatter.lang === 'es' ? 'es-ES' : 'en-US', { month: 'long' });
+const capitalizedMonth = month.charAt(0).toUpperCase() + month.slice(1);
+
+const formattedDate = `${capitalizedMonth} ${day}, ${year}`;
+const relativeTime = getRelativeTime(frontmatter.date, frontmatter.lang);
+
+// Contextual Social Links
+const twitterUrl = frontmatter.lang === 'es' ? SITE_LINKS.twitter.url.es : SITE_LINKS.twitter.url.en;
+const defaultHandle = frontmatter.lang === 'es' ? SITE_LINKS.twitter.handle.es : SITE_LINKS.twitter.handle.en;
+
 ---
 
 <BaseLayout
@@ -37,36 +48,20 @@ const formattedDate = dateFormatter.format(frontmatter.date);
       <header class="mb-12">
         <h1 class="mb-4 text-5xl font-bold">{frontmatter.title}</h1>
         
-        <div class="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+        <div class="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+          <a 
+            href={twitterUrl} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="font-medium hover:text-primary-400 transition-colors"
+          >
+            {defaultHandle}
+          </a>
+          <span aria-hidden="true">·</span>
           <time datetime={frontmatter.date.toISOString()}>
-            {formattedDate}
+            {formattedDate} ({relativeTime})
           </time>
-          
-          {frontmatter.tags.length > 0 && (
-            <>
-              <span aria-hidden="true">·</span>
-              <div class="flex flex-wrap gap-2">
-                {frontmatter.tags.map((tag) => (
-                  <span class="rounded-full bg-muted px-3 py-1">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </>
-          )}
         </div>
-        
-        {/* Language Switch */}
-        {alternateUrl && alternateLang && (
-          <div class="mt-6">
-            <a 
-              href={alternateUrl} 
-              class="text-sm text-muted-foreground hover:text-link"
-            >
-              {alternateLang === 'es' ? '🇪🇸 Leer en español' : '🇺🇸 Read in English'}
-            </a>
-          </div>
-        )}
       </header>
       
       <!-- Post Content -->
