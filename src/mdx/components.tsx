@@ -1,0 +1,107 @@
+import type React from "react";
+import { QuoteIcon } from "lucide-react";
+import Figure from "@/components/mdx/Figure.astro";
+import Video from "@/components/mdx/Video.astro";
+import SmartLink from "@/components/mdx/SmartLink.astro";
+import Callout from "@/components/mdx/Callout.astro";
+import Divider from "@/components/mdx/Divider.astro";
+import Quote from "@/components/mdx/Quote.astro";
+import Audio from "@/components/mdx/Audio.astro";
+
+// Optional: React islands (only hydrate when needed)
+// import CodeTabs from '@/components/islands/CodeTabs';
+
+/**
+ * MDX Component Registry
+ * This is the single source of truth for all MDX components used in posts
+ */
+export const mdxComponents = {
+	/*******************************************
+	 * Native HTML tags
+	 ******************************************/
+	img: Figure,
+	a: SmartLink,
+	p: (props: React.HTMLAttributes<HTMLParagraphElement>) => (
+		<p className="leading-relaxed mb-8" {...props} />
+	),
+
+	h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
+		<h1
+			className="text-[2.75rem] font-bold leading-tight mt-0 mb-6"
+			{...props}
+		/>
+	),
+
+	h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
+		<h2
+			className="text-[2rem] font-semibold leading-snug mt-12 mb-4"
+			{...props}
+		/>
+	),
+
+	h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
+		<h3
+			className="text-[2rem] font-semibold leading-snug mt-10 mb-3"
+			{...props}
+		/>
+	),
+
+	strong: (props: React.HTMLAttributes<HTMLElement>) => (
+		<strong className="font-semibold text-foreground" {...props} />
+	),
+
+	code: (props: React.HTMLAttributes<HTMLElement>) => (
+		<code
+			className="rounded bg-slate-800 px-1 py-0.5 text-sm font-mono text-primary-300"
+			{...props}
+		/>
+	),
+
+	ul: (props: React.HTMLAttributes<HTMLUListElement>) => (
+		<ul
+			className="my-6 ml-6 list-disc ps-4 marker:text-primary-600 text-xl"
+			{...props}
+		/>
+	),
+
+	ol: (props: React.HTMLAttributes<HTMLOListElement>) => (
+		<ol
+			className="list-decimal list-outside pl-6 mb-8 space-y-2 text-foreground font-serif text-xl leading-relaxed"
+			{...props}
+		/>
+	),
+
+	li: (props: React.HTMLAttributes<HTMLLIElement>) => (
+		<li className="mb-1 [&>p]:mb-2" {...props} />
+	),
+
+	hr: (props: React.HTMLAttributes<HTMLHRElement>) => (
+		<hr className="border-0 h-px bg-border my-12 mx-auto w-16" {...props} />
+	),
+
+	blockquote: (props: React.HTMLAttributes<HTMLQuoteElement>) => (
+		<blockquote
+			className="relative my-6 border-l-4 border-primary-500/50 bg-slate-900/50 pl-6 pr-4 py-4 rounded-sm"
+			{...props}
+		>
+			<QuoteIcon className="absolute left-2 top-1 size-6 text-primary-500/30 rotate-180" />
+			<div className="relative text-center [&>p]:text-primary-300 italic [&>p]:mb-0 [&>p:last-child]:mb-0">
+				{props.children}
+			</div>
+		</blockquote>
+	),
+
+	/*******************************************
+	 * Custom MDX components
+	 ******************************************/
+	Video,
+	Callout,
+	Divider,
+	Quote,
+	Audio,
+
+	/*******************************************
+	 * Islands (uncomment when needed)
+	 ******************************************/
+	// CodeTabs,
+};
