@@ -31,11 +31,11 @@ const formattedDate = dateFormatter.format(frontmatter.date);
 >
   <Header lang={frontmatter.lang} />
   
-  <main class="container-narrow py-12">
+  <main>
     <article>
       <!-- Post Header -->
       <header class="mb-12">
-        <h1 class="mb-4">{frontmatter.title}</h1>
+        <h1 class="mb-4 text-5xl font-bold">{frontmatter.title}</h1>
         
         <div class="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
           <time datetime={frontmatter.date.toISOString()}>
