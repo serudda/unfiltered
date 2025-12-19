@@ -37,7 +37,7 @@ const formattedDate = dateFormatter.format(frontmatter.date);
       <header class="mb-12">
         <h1 class="mb-4">{frontmatter.title}</h1>
         
-        <div class="flex flex-wrap items-center gap-4 text-sm text-[hsl(var(--muted-foreground))]">
+        <div class="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
           <time datetime={frontmatter.date.toISOString()}>
             {formattedDate}
           </time>
@@ -47,7 +47,7 @@ const formattedDate = dateFormatter.format(frontmatter.date);
               <span aria-hidden="true">·</span>
               <div class="flex flex-wrap gap-2">
                 {frontmatter.tags.map((tag) => (
-                  <span class="rounded-full bg-[hsl(var(--muted))] px-3 py-1">
+                  <span class="rounded-full bg-muted px-3 py-1">
                     {tag}
                   </span>
                 ))}
@@ -76,7 +76,7 @@ const formattedDate = dateFormatter.format(frontmatter.date);
       
       <!-- Optional: Audio Narration -->
       {frontmatter.audio && frontmatter.audio[frontmatter.lang] && (
-        <div class="mt-12 pt-8 border-t border-[hsl(var(--border))]">
+        <div class="mt-12 pt-8 border-t border-muted">
           <h2 class="text-xl mb-4">
             {frontmatter.lang === 'es' ? '🎧 Escuchar' : '🎧 Listen'}
           </h2>
