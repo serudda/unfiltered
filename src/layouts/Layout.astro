@@ -4,20 +4,14 @@ interface Props {
   description?: string;
   canonical?: string;
   ogImage?: string;
-  lang?: 'es' | 'en';
-  alternateUrl?: string;
-  alternateLang?: 'es' | 'en';
   class?: string;
 }
 
 const {
   title,
-  description = 'Un espacio para compartir pensamientos, ideas y aprendizajes.',
+  description = 'A space to share thoughts, ideas, and learnings.',
   canonical,
   ogImage = '/og-image.jpg',
-  lang = 'es',
-  alternateUrl,
-  alternateLang,
 } = Astro.props;
 
 const siteName = 'Unfiltered';
@@ -25,7 +19,7 @@ const defaultTitle = `${title} — ${siteName}`;
 ---
 
 <!doctype html>
-<html lang={lang} class="bg-background text-foreground font-sans">
+<html lang="en" class="bg-background text-foreground font-sans">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -39,11 +33,6 @@ const defaultTitle = `${title} — ${siteName}`;
     
     <!-- Canonical URL -->
     {canonical && <link rel="canonical" href={canonical} />}
-    
-    <!-- Language Alternates -->
-    {alternateUrl && alternateLang && (
-      <link rel="alternate" hreflang={alternateLang} href={alternateUrl} />
-    )}
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />

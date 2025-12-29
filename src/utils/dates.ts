@@ -1,8 +1,8 @@
 /**
- * Format a date in a locale-friendly way
+ * Format a date in a readable way
  */
-export function formatDate(date: Date, lang: "es" | "en"): string {
-	const formatter = new Intl.DateTimeFormat(lang === "es" ? "es-ES" : "en-US", {
+export function formatDate(date: Date): string {
+	const formatter = new Intl.DateTimeFormat("en-US", {
 		year: "numeric",
 		month: "long",
 		day: "numeric",
@@ -21,11 +21,11 @@ export function formatDateISO(date: Date): string {
 /**
  * Format a relative time (e.g., "2 days ago")
  */
-export function formatRelativeTime(date: Date, lang: "es" | "en"): string {
+export function formatRelativeTime(date: Date): string {
 	const now = new Date();
 	const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-	const rtf = new Intl.RelativeTimeFormat(lang === "es" ? "es-ES" : "en-US", {
+	const rtf = new Intl.RelativeTimeFormat("en-US", {
 		numeric: "auto",
 	});
 

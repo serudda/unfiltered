@@ -3,32 +3,25 @@ import type { CollectionEntry } from 'astro:content';
 import BaseLayout from './Layout.astro';
 import Header from '@/components/site/Header.astro';
 import Footer from '@/components/site/Footer.astro';
-import { getRelativeTime } from '@/utils/date';
+import { formatRelativeTime } from '@/utils/dates';
 import { SITE_LINKS } from '@/constants/links';
 
 interface Props {
-  frontmatter: CollectionEntry<'posts_es' | 'posts_en'>['data'];
+  frontmatter: CollectionEntry<'posts'>['data'];
   canonical: string;
-  alternateUrl?: string;
-  alternateLang?: 'es' | 'en';
 }
 
-const { frontmatter, canonical, alternateUrl, alternateLang } = Astro.props;
+const { frontmatter, canonical } = Astro.props;
 
 // Format date
-// Format date: "Diciembre 17, 2025"
 const dateObj = new Date(frontmatter.date);
 const day = dateObj.getDate();
 const year = dateObj.getFullYear();
-const month = dateObj.toLocaleDateString(frontmatter.lang === 'es' ? 'es-ES' : 'en-US', { month: 'long' });
+const month = dateObj.toLocaleDateString('en-US', { month: 'long' });
 const capitalizedMonth = month.charAt(0).toUpperCase() + month.slice(1);
 
 const formattedDate = `${capitalizedMonth} ${day}, ${year}`;
-const relativeTime = getRelativeTime(frontmatter.date, frontmatter.lang);
-
-// Contextual Social Links
-const twitterUrl = frontmatter.lang === 'es' ? SITE_LINKS.twitter.url.es : SITE_LINKS.twitter.url.en;
-const defaultHandle = frontmatter.lang === 'es' ? SITE_LINKS.twitter.handle.es : SITE_LINKS.twitter.handle.en;
+const relativeTime = formatRelativeTime(frontmatter.date);
 
 ---
 
@@ -36,11 +29,8 @@ const defaultHandle = frontmatter.lang === 'es' ? SITE_LINKS.twitter.handle.es :
   title={frontmatter.title}
   description={frontmatter.description}
   canonical={canonical}
-  lang={frontmatter.lang}
-  alternateUrl={alternateUrl}
-  alternateLang={alternateLang}
 >
-  <Header lang={frontmatter.lang} />
+  <Header />
   
   <main>
     <article>
@@ -50,12 +40,12 @@ const defaultHandle = frontmatter.lang === 'es' ? SITE_LINKS.twitter.handle.es :
         
         <div class="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
           <a 
-            href={twitterUrl} 
+            href={SITE_LINKS.twitter.url} 
             target="_blank" 
             rel="noopener noreferrer" 
             class="font-medium hover:text-primary-400 transition-colors"
           >
-            {defaultHandle}
+            {SITE_LINKS.twitter.handle}
           </a>
           <span aria-hidden="true">·</span>
           <time datetime={frontmatter.date.toISOString()}>
@@ -68,20 +58,8 @@ const defaultHandle = frontmatter.lang === 'es' ? SITE_LINKS.twitter.handle.es :
       <div class="font-serif text-xl text-foreground">
         <slot />
       </div>
-      
-      <!-- Optional: Audio Narration -->
-      {frontmatter.audio && frontmatter.audio[frontmatter.lang] && (
-        <div class="mt-12 pt-8 border-t border-muted">
-          <h2 class="text-xl mb-4">
-            {frontmatter.lang === 'es' ? '🎧 Escuchar' : '🎧 Listen'}
-          </h2>
-          <audio controls class="w-full" preload="metadata">
-            <source src={frontmatter.audio[frontmatter.lang]} type="audio/mpeg" />
-          </audio>
-        </div>
-      )}
     </article>
   </main>
   
-  <Footer lang={frontmatter.lang} />
+  <Footer />
 </BaseLayout>

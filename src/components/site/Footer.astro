@@ -1,20 +1,6 @@
----
-interface Props {
-  lang: 'es' | 'en';
-}
-
-const { lang } = Astro.props;
-const currentYear = new Date().getFullYear();
----
-
 <footer class="border-t border-border mt-20">
   <div class="container-narrow py-8">
     <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-      <!-- Copyright -->
-      <p class="m-0">
-        © {currentYear} Unfiltered. 
-        {lang === 'es' ? 'Todos los derechos reservados.' : 'All rights reserved.'}
-      </p>
       
       <!-- Links -->
       <div class="flex items-center gap-4">

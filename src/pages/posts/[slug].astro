@@ -3,11 +3,10 @@ import { getCollection } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import PostLayout from '@/layouts/PostLayout.astro';
 import { mdxComponents } from '@/mdx/components';
-import { findTranslationUrl } from '@/utils/i18n';
 import { generateCanonicalUrl } from '@/utils/seo';
 
 export const getStaticPaths = (async () => {
-  const posts = await getCollection('posts_es', ({ data }) => {
+  const posts = await getCollection('posts', ({ data }) => {
     // Filter out drafts in production
     return import.meta.env.PROD ? !data.draft : true;
   });
@@ -22,19 +21,12 @@ const { post } = Astro.props;
 const { Content } = await post.render();
 
 // SEO
-const canonical = generateCanonicalUrl(`/es/posts/${post.slug}`);
-
-// Find translation
-const alternateUrl = post.data.translationKey
-  ? await findTranslationUrl(post.data.translationKey, 'en')
-  : undefined;
+const canonical = generateCanonicalUrl(`/posts/${post.slug}`);
 ---
 
 <PostLayout
   frontmatter={post.data}
   canonical={canonical}
-  alternateUrl={alternateUrl ? generateCanonicalUrl(alternateUrl) : undefined}
-  alternateLang="en"
 >
   <Content components={mdxComponents} />
 </PostLayout>

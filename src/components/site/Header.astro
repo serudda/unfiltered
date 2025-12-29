@@ -1,28 +1,9 @@
 ---
-interface Props {
-  lang: 'es' | 'en';
-}
-
-const { lang } = Astro.props;
-
 const navItems = [
-  { 
-    href: `/${lang}`, 
-    label: lang === 'es' ? 'Inicio' : 'Home' 
-  },
-  { 
-    href: `/${lang}/posts`, 
-    label: 'Posts' 
-  },
-  { 
-    href: `/${lang}/notes`, 
-    label: lang === 'es' ? 'Notas' : 'Notes' 
-  },
+  { href: '/', label: 'Home' },
+  { href: '/posts', label: 'Posts' },
+  { href: '/notes', label: 'Notes' },
 ];
-
-const alternateLang = lang === 'es' ? 'en' : 'es';
-const currentPath = Astro.url.pathname;
-const alternatePath = currentPath.replace(`/${lang}`, `/${alternateLang}`);
 ---
 
 <header>
@@ -30,8 +11,8 @@ const alternatePath = currentPath.replace(`/${lang}`, `/${alternateLang}`);
     <div class="flex items-center justify-between">
       <!-- Site Name / Logo -->
       <a 
-        href={`/${lang}`} 
-        class="text-xl font-semibold no-underline hover:text-muted-foreground transition-colors"
+        href="/" 
+        class="text-2xl tracking-wide font-semibold font-logo no-underline hover:text-muted-foreground transition-colors"
       >
         Unfiltered
       </a>
@@ -46,15 +27,6 @@ const alternatePath = currentPath.replace(`/${lang}`, `/${alternateLang}`);
             {item.label}
           </a>
         ))}
-        
-        <!-- Language Toggle -->
-        <a
-          href={alternatePath}
-          class="text-sm no-underline text-muted-foreground hover:text-link transition-colors"
-          title={lang === 'es' ? 'Switch to English' : 'Cambiar a Español'}
-        >
-          {alternateLang === 'es' ? '🇪🇸' : '🇺🇸'}
-        </a>
       </div>
     </div>
   </nav>
