@@ -66,6 +66,8 @@
 	--color-border: var(--color-zinc-800);
 	--color-input: var(--color-zinc-800);
 	--color-ring: var(--color-zinc-600);
+	--color-link: var(--color-primary-300);
+	--color-link-hover: var(--color-primary-400);
 
 	--dashed-border-color: var(--color-zinc-800);
 }
