@@ -35,7 +35,7 @@ const relativeTime = formatRelativeTime(frontmatter.date);
   <main class="py-20">
     <article>
       <!-- Post Header -->
-      <header class="mb-12">
+      <header>
         <h1 class="mb-2 text-5xl font-bold">{frontmatter.title}</h1>
         
         <div class="flex flex-wrap items-center gap-2 ml-1 text-sm text-muted-foreground">
@@ -53,6 +53,8 @@ const relativeTime = formatRelativeTime(frontmatter.date);
           </time>
         </div>
       </header>
+
+      <hr class="border-dashed-x my-6 mb-10" />
       
       <!-- Post Content -->
       <div class="font-serif text-xl text-foreground">
