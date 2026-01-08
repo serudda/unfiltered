@@ -5,6 +5,8 @@ interface Props {
   canonical?: string;
   ogImage?: string;
   class?: string;
+  lang?: 'en' | 'es';
+  alternateLinks?: Array<{ href: string; lang: string }>;
 }
 
 const {
@@ -12,6 +14,8 @@ const {
   description = 'A space to share thoughts, ideas, and learnings.',
   canonical,
   ogImage = '/og-image.jpg',
+  lang = 'en',
+  alternateLinks = [],
 } = Astro.props;
 
 const siteName = 'Unfiltered';
@@ -19,7 +23,7 @@ const defaultTitle = `${title} — ${siteName}`;
 ---
 
 <!doctype html>
-<html lang="en" class="bg-background text-foreground font-sans">
+<html lang={lang} class="bg-background text-foreground font-sans">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -33,6 +37,12 @@ const defaultTitle = `${title} — ${siteName}`;
     
     <!-- Canonical URL -->
     {canonical && <link rel="canonical" href={canonical} />}
+    
+    <!-- Hreflang tags for multilingual SEO -->
+    {alternateLinks.map(({ href, lang }) => (
+      <link rel="alternate" hreflang={lang} href={href} />
+    ))}
+    {canonical && <link rel="alternate" hreflang={lang} href={canonical} />}
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />

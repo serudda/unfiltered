@@ -9,6 +9,8 @@ const postSchema = z.object({
 	tags: z.array(z.string()).default([]),
 	draft: z.boolean().default(false),
 	readingTime: z.number().optional(), // Reading time in minutes
+	lang: z.enum(["en", "es"]).default("en"), // Language of the post
+	ref: z.string().optional(), // Shared reference ID for translations
 });
 
 // Collections

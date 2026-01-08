@@ -20,6 +20,24 @@ export const getStaticPaths = (async () => {
 const { post } = Astro.props;
 const { Content } = await post.render();
 
+// Find translations (posts with same `ref` but different `lang`)
+const allPosts = await getCollection('posts', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+
+const translations = post.data.ref
+  ? allPosts.filter(p => 
+      p.data.ref === post.data.ref && 
+      p.data.lang !== post.data.lang
+    )
+  : [];
+
+// Build alternateLinks array for hreflang tags
+const alternateLinks = translations.map(t => ({
+  href: generateCanonicalUrl(`/posts/${t.slug}`),
+  lang: t.data.lang,
+}));
+
 // SEO
 const canonical = generateCanonicalUrl(`/posts/${post.slug}`);
 ---
@@ -27,6 +45,8 @@ const canonical = generateCanonicalUrl(`/posts/${post.slug}`);
 <PostLayout
   frontmatter={post.data}
   canonical={canonical}
+  lang={post.data.lang}
+  alternateLinks={alternateLinks}
 >
   <Content components={mdxComponents} />
 </PostLayout>

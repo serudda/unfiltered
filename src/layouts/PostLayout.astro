@@ -9,9 +9,11 @@ import { SITE_LINKS } from '@/constants/links';
 interface Props {
   frontmatter: CollectionEntry<'posts'>['data'];
   canonical: string;
+  lang?: 'en' | 'es';
+  alternateLinks?: Array<{ href: string; lang: string }>;
 }
 
-const { frontmatter, canonical } = Astro.props;
+const { frontmatter, canonical, lang = 'en', alternateLinks = [] } = Astro.props;
 
 // Format date
 const dateObj = new Date(frontmatter.date);
@@ -29,6 +31,8 @@ const relativeTime = formatRelativeTime(frontmatter.date);
   title={frontmatter.title}
   description={frontmatter.description}
   canonical={canonical}
+  lang={lang}
+  alternateLinks={alternateLinks}
 >
   <Header />
   
