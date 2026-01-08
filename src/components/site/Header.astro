@@ -13,13 +13,38 @@ const navItems = [
 <header>
   <nav>
     <div class="flex items-center justify-between">
-      <!-- Site Name / Logo -->
-      <a 
-        href={`/${lang}/`}
-        class="text-2xl tracking-wide font-semibold font-logo no-underline hover:text-primary-300 transition-colors"
-      >
-        Unfiltered
-      </a>
+
+      <div class="flex items-end gap-4">
+        <a 
+          href={`/${lang}/`}
+          class="text-2xl tracking-wide leading-none font-semibold font-logo no-underline hover:text-primary-300 transition-colors"
+        >
+          Unfiltered
+        </a>
+
+        <!-- Language Switcher -->
+        <div class="flex items-center gap-1.5 text-xs text-muted-foreground">
+          <a 
+            href="/en/"
+            class:list={[
+              "no-underline transition-colors",
+              lang === 'en' ? "text-foreground font-medium" : "text-muted-foreground hover:text-link"
+            ]}
+          >
+            EN
+          </a>
+          <span class="w-px h-3 bg-muted-foreground" />
+          <a 
+            href="/es/"
+            class:list={[
+              "no-underline transition-colors",
+              lang === 'es' ? "text-foreground font-medium" : "text-muted-foreground hover:text-link"
+            ]}
+          >
+            ES
+          </a>
+        </div>
+      </div> 
       
       <!-- Navigation -->
       <div class="flex items-center gap-6">
@@ -31,29 +56,6 @@ const navItems = [
             {item.label}
           </a>
         ))}
-        
-        <!-- Language Switcher -->
-        <div class="flex items-center gap-1 text-sm text-muted-foreground">
-          <a 
-            href="/en/"
-            class:list={[
-              "no-underline transition-colors",
-              lang === 'en' ? "text-foreground font-medium" : "text-muted-foreground hover:text-link"
-            ]}
-          >
-            EN
-          </a>
-          <span>|</span>
-          <a 
-            href="/es/"
-            class:list={[
-              "no-underline transition-colors",
-              lang === 'es' ? "text-foreground font-medium" : "text-muted-foreground hover:text-link"
-            ]}
-          >
-            ES
-          </a>
-        </div>
         
         <a
           href="https://x.com/serudda"
