@@ -1,4 +1,6 @@
 ---
+import '@/styles/global.css';
+
 interface Props {
   title: string;
   description?: string;
@@ -60,7 +62,6 @@ const defaultTitle = `${title} — ${siteName}`;
     <meta name="twitter:image" content={ogImage} />
     
     <!-- Styles -->
-    <link rel="stylesheet" href="/src/styles/global.css" />
   </head>
   <body class="min-h-screen @container dark">
     <div class="flex flex-col min-h-screen @md:max-w-[800px] mx-auto border-dashed-y p-10">
