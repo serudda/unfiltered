@@ -1,0 +1,111 @@
+---
+import { getCollection } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '@/layouts/Layout.astro';
+import Header from '@/components/site/Header.astro';
+import { generateCanonicalUrl } from '@/utils/seo';
+
+export const getStaticPaths = (() => {
+  return [
+    { params: { lang: 'en' } },
+    { params: { lang: 'es' } },
+  ];
+}) satisfies GetStaticPaths;
+
+const { lang } = Astro.params as { lang: 'en' | 'es' };
+
+// Filter posts by language
+const posts = (await getCollection('posts', ({ data }) => {
+  const isNotDraft = import.meta.env.PROD ? !data.draft : true;
+  const matchesLang = data.lang === lang;
+  return isNotDraft && matchesLang;
+})).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const canonical = generateCanonicalUrl(`/${lang}/`);
+
+// Group posts by year
+const groupedPosts = posts.reduce((acc, post) => {
+  const year = post.data.date.getFullYear();
+  if (!acc[year]) acc[year] = [];
+  acc[year].push(post);
+  return acc;
+}, {} as Record<number, typeof posts>);
+
+const years = Object.keys(groupedPosts).map(Number).sort((a, b) => b - a);
+
+// i18n strings
+const strings = {
+  en: {
+    title: 'Home',
+    description: 'A space to share thoughts, ideas, and learnings.',
+    greeting: "Hi, I'm Sergio Ruiz",
+    nickname: '(known as "Serudda") 👋',
+    bio: `I'm a <a href="https://github.com/serudda" target="_blank" class="text-foreground hover:text-primary-300 transition-colors border-b border-primary-300/50 hover:border-primary-300">Product Engineer</a> now—yeah, used to be "UX Engineer" 🤷‍♂️, and I've been coding for 15 years. Titles change, but I haven't: I just love to create. Whether I'm building software, recording <a href="#" class="text-foreground hover:text-primary-300 transition-colors border-b border-primary-300/50 hover:border-primary-300">videos</a>, or playing Magic: The Gathering, I'm always making something. I'm pretty low-key these days, mostly hanging out with my wife, kids, and <a href="#" class="text-foreground hover:text-primary-300 transition-colors border-b border-primary-300/50 hover:border-primary-300">dogs</a>.`,
+    recentPosts: 'Recent Posts',
+    minRead: 'min read',
+  },
+  es: {
+    title: 'Inicio',
+    description: 'Un espacio para compartir pensamientos, ideas y aprendizajes.',
+    greeting: 'Hola, soy Sergio Ruiz',
+    nickname: '(conocido como "Serudda") 👋',
+    bio: `Soy un <a href="https://github.com/serudda" target="_blank" class="text-foreground hover:text-primary-300 transition-colors border-b border-primary-300/50 hover:border-primary-300">Product Engineer</a>—sí, antes me llamaban "UX Engineer" 🤷‍♂️, y llevo 15 años codeando. Los títulos cambian, pero yo no: simplemente me encanta crear. Ya sea construyendo software, grabando <a href="#" class="text-foreground hover:text-primary-300 transition-colors border-b border-primary-300/50 hover:border-primary-300">videos</a>, o jugando Magic: The Gathering, siempre estoy haciendo algo. Soy bastante tranquilo, pasando tiempo con mi esposa, hijos y <a href="#" class="text-foreground hover:text-primary-300 transition-colors border-b border-primary-300/50 hover:border-primary-300">perros</a>.`,
+    recentPosts: 'Posts Recientes',
+    minRead: 'min de lectura',
+  },
+};
+
+const t = strings[lang];
+---
+
+<BaseLayout
+  title={t.title}
+  description={t.description}
+  canonical={canonical}
+  lang={lang}
+>
+  <Header lang={lang} />
+  
+  <main class="py-20">
+    <header class="mb-10">
+      <h1 class="mb-4 font-serif text-xl font-semibold">{t.greeting} <span class="text-muted-foreground text-sm">{t.nickname}</span></h1>
+      <p class="font-serif text-foreground leading-relaxed" set:html={t.bio} />
+    </header>
+
+    <hr class="my-12 border-dashed-x" />
+    
+    <!-- Posts List -->
+    <section>
+      <h2 class="mb-6 font-serif text-xl font-semibold">{t.recentPosts}</h2>
+      
+      {posts.length !== 0 && (
+        <div class="space-y-4">
+          {years.map((year) => (
+            <div class="relative grid grid-cols-[1fr_auto] gap-4 items-start sm:grid-cols-[100px_1fr_auto] sm:gap-8">
+              <div class="text-muted-foreground font-medium hidden sm:block">
+                {year}
+              </div>
+              <div class="contents sm:block sm:col-start-2">
+                <div class="space-y-4 w-full">
+                  {groupedPosts[year].map((post) => (
+                    <article class="group flex justify-between items-baseline gap-4">
+                      <a 
+                        href={`/${lang}/posts/${post.slug}`}
+                        class="text-foreground no-underline hover:text-primary-300 transition-colors truncate"
+                      >
+                        {post.data.title}
+                      </a>
+                      <span class="text-sm text-muted-foreground font-mono tabular-nums shrink-0">
+                        {post.data.readingTime ? `${post.data.readingTime} ${t.minRead}` : ''}
+                      </span>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </section>
+  </main>
+</BaseLayout>

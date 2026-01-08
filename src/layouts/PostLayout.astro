@@ -2,7 +2,6 @@
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from './Layout.astro';
 import Header from '@/components/site/Header.astro';
-import Footer from '@/components/site/Footer.astro';
 import { formatRelativeTime } from '@/utils/dates';
 import { SITE_LINKS } from '@/constants/links';
 
@@ -34,7 +33,7 @@ const relativeTime = formatRelativeTime(frontmatter.date);
   lang={lang}
   alternateLinks={alternateLinks}
 >
-  <Header />
+  <Header lang={lang} />
   
   <main class="py-20">
     <article>

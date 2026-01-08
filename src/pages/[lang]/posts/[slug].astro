@@ -7,16 +7,19 @@ import { generateCanonicalUrl } from '@/utils/seo';
 
 export const getStaticPaths = (async () => {
   const posts = await getCollection('posts', ({ data }) => {
-    // Filter out drafts in production
     return import.meta.env.PROD ? !data.draft : true;
   });
 
   return posts.map((post) => ({
-    params: { slug: post.slug },
+    params: { 
+      lang: post.data.lang,
+      slug: post.slug 
+    },
     props: { post },
   }));
 }) satisfies GetStaticPaths;
 
+const { lang } = Astro.params as { lang: 'en' | 'es' };
 const { post } = Astro.props;
 const { Content } = await post.render();
 
@@ -34,12 +37,12 @@ const translations = post.data.ref
 
 // Build alternateLinks array for hreflang tags
 const alternateLinks = translations.map(t => ({
-  href: generateCanonicalUrl(`/posts/${t.slug}`),
+  href: generateCanonicalUrl(`/${t.data.lang}/posts/${t.slug}`),
   lang: t.data.lang,
 }));
 
 // SEO
-const canonical = generateCanonicalUrl(`/posts/${post.slug}`);
+const canonical = generateCanonicalUrl(`/${lang}/posts/${post.slug}`);
 ---
 
 <PostLayout
@@ -47,6 +50,7 @@ const canonical = generateCanonicalUrl(`/posts/${post.slug}`);
   canonical={canonical}
   lang={post.data.lang}
   alternateLinks={alternateLinks}
+  translations={translations}
 >
   <Content components={mdxComponents} />
 </PostLayout>
