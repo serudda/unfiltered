@@ -36,9 +36,9 @@ const relativeTime = formatRelativeTime(frontmatter.date);
     <article>
       <!-- Post Header -->
       <header class="mb-12">
-        <h1 class="mb-4 text-5xl font-bold">{frontmatter.title}</h1>
+        <h1 class="mb-2 text-5xl font-bold">{frontmatter.title}</h1>
         
-        <div class="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+        <div class="flex flex-wrap items-center gap-2 ml-1 text-sm text-muted-foreground">
           <a 
             href={SITE_LINKS.twitter.url} 
             target="_blank" 
@@ -48,7 +48,7 @@ const relativeTime = formatRelativeTime(frontmatter.date);
             {SITE_LINKS.twitter.handle}
           </a>
           <span aria-hidden="true">·</span>
-          <time datetime={frontmatter.date.toISOString()}>
+          <time class="font-serif" datetime={frontmatter.date.toISOString()}>
             {formattedDate} ({relativeTime})
           </time>
         </div>

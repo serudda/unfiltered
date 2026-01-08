@@ -54,12 +54,12 @@ const years = Object.keys(groupedPosts).map(Number).sort((a, b) => b - a);
                     <article class="group flex justify-between items-baseline gap-4">
                       <a 
                         href={`/posts/${post.slug}`}
-                        class="text-foreground no-underline hover:text-muted-foreground transition-colors truncate"
+                        class="text-foreground no-underline hover:text-primary-300 transition-colors truncate"
                       >
                         {post.data.title}
                       </a>
                       <span class="text-sm text-muted-foreground font-mono tabular-nums shrink-0">
-                        {Math.floor(Math.random() * 10000).toLocaleString('en')}
+                        {post.data.readingTime ? `${post.data.readingTime} min read` : ''}
                       </span>
                     </article>
                   ))}
