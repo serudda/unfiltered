@@ -1,20 +1,50 @@
 ---
+interface Props {
+  lang?: 'en' | 'es';
+}
+
+const { lang = 'en' } = Astro.props;
+
 const navItems = [
-  { href: '/', label: 'Posts' },
-  { href: '/notes', label: 'Notes' },
+  { href: `/${lang}/`, label: 'Posts' },
 ];
 ---
 
 <header>
   <nav>
     <div class="flex items-center justify-between">
-      <!-- Site Name / Logo -->
-      <a 
-        href="/" 
-        class="text-2xl tracking-wide font-semibold font-logo no-underline hover:text-muted-foreground transition-colors"
-      >
-        Unfiltered
-      </a>
+
+      <div class="flex items-end gap-4">
+        <a 
+          href={`/${lang}/`}
+          class="text-2xl tracking-wide leading-none font-semibold font-logo no-underline hover:text-primary-300 transition-colors"
+        >
+          Unfiltered
+        </a>
+
+        <!-- Language Switcher -->
+        <div class="flex items-center gap-1.5 text-xs text-muted-foreground">
+          <a 
+            href="/en/"
+            class:list={[
+              "no-underline transition-colors",
+              lang === 'en' ? "text-foreground font-medium" : "text-muted-foreground hover:text-link"
+            ]}
+          >
+            EN
+          </a>
+          <span class="w-px h-3 bg-muted-foreground" />
+          <a 
+            href="/es/"
+            class:list={[
+              "no-underline transition-colors",
+              lang === 'es' ? "text-foreground font-medium" : "text-muted-foreground hover:text-link"
+            ]}
+          >
+            ES
+          </a>
+        </div>
+      </div> 
       
       <!-- Navigation -->
       <div class="flex items-center gap-6">
@@ -26,6 +56,18 @@ const navItems = [
             {item.label}
           </a>
         ))}
+        
+        <a
+          href="https://x.com/serudda"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-1 text-sm no-underline text-muted-foreground hover:text-link transition-colors"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true" class="h-3 w-3 fill-current">
+            <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
+          </svg>
+          Follow me
+        </a>
       </div>
     </div>
   </nav>
