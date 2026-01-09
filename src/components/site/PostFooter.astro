@@ -1,0 +1,35 @@
+---
+import { SITE_LINKS } from '@/constants/links';
+---
+
+<footer>
+
+  <hr class="border-dashed-x border-border/50 mt-20 mb-8">
+
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm font-mono text-muted-foreground/80">
+    
+    <!-- Author & Social -->
+    <div class="flex items-center gap-2">
+      <span class="text-foreground flex items-center gap-1.5"><span class="text-muted-foreground/80 text-xs font-semibold">by</span>Sergio Ruiz</span>
+      <a 
+        href={SITE_LINKS.twitter.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hover:text-primary-400 transition-colors"
+      >
+        ({SITE_LINKS.twitter.handle})
+      </a>
+    </div>
+
+    <!-- Source Link -->
+    <a 
+      href="https://github.com/serudda/unfiltered"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="hover:text-primary-400 transition-colors underline decoration-border hover:decoration-primary-400 underline-offset-4"
+    >
+      Source
+    </a>
+
+  </div>
+</footer>

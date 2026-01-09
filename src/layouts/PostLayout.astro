@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from './Layout.astro';
 import Header from '@/components/site/Header.astro';
+import PostFooter from '@/components/site/PostFooter.astro';
 import { formatRelativeTime } from '@/utils/dates';
 import { SITE_LINKS } from '@/constants/links';
 
@@ -63,6 +64,8 @@ const relativeTime = formatRelativeTime(frontmatter.date);
       <div class="font-serif text-xl text-foreground">
         <slot />
       </div>
+
+      <PostFooter />
     </article>
   </main>
 </BaseLayout>
