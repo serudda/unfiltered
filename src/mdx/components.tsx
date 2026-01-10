@@ -79,17 +79,7 @@ export const mdxComponents = {
 		<hr className="border-0 h-px bg-border my-12 mx-auto w-16" {...props} />
 	),
 
-	blockquote: (props: React.HTMLAttributes<HTMLQuoteElement>) => (
-		<blockquote
-			className="relative my-6 border-l-4 border-primary-500/50 bg-slate-900/50 pl-6 pr-4 py-4 rounded-sm"
-			{...props}
-		>
-			<QuoteIcon className="absolute left-2 top-1 size-6 text-primary-500/30 rotate-180" />
-			<div className="relative text-center [&>p]:text-primary-300 italic [&>p]:mb-0 [&>p:last-child]:mb-0">
-				{props.children}
-			</div>
-		</blockquote>
-	),
+	blockquote: Quote,
 
 	/*******************************************
 	 * Custom MDX components
@@ -97,7 +87,6 @@ export const mdxComponents = {
 	Video,
 	Callout,
 	Divider,
-	Quote,
 	Audio,
 
 	/*******************************************

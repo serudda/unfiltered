@@ -1,21 +1,16 @@
 ---
+import { QuoteIcon } from "lucide-react";
+
 interface Props {
   author?: string;
   source?: string;
 }
 
-const { author, source } = Astro.props;
 ---
 
-<blockquote class="my-8 border-l-4 border-border pl-6 italic text-muted-foreground">
-  <div class="mb-2">
+<blockquote class="relative my-8 border-l-4 border-primary-500/50 bg-slate-900/50 pl-6 pr-4 pt-6 pb-4 rounded-sm">
+  <QuoteIcon className="absolute left-2 top-1 size-6 text-primary-500/10 rotate-180" />
+  <div class="relative text-center [&>p]:text-primary-300 italic [&>p]:mb-0 [&>p:last-child]:mb-0">
     <slot />
   </div>
-  {(author || source) && (
-    <footer class="mt-4 text-sm not-italic">
-      {author && <cite class="font-semibold">{author}</cite>}
-      {author && source && <span class="mx-2">·</span>}
-      {source && <span>{source}</span>}
-    </footer>
-  )}
 </blockquote>
