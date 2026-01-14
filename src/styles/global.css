@@ -97,3 +97,8 @@
 	background-position: left top;
 	background-repeat: repeat-x;
 }
+
+/* Inline code styling (not inside pre blocks) */
+:not(pre) > code {
+	@apply rounded bg-slate-800 px-1 py-0.5 text-sm font-mono text-primary-300;
+}
