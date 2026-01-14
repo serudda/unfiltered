@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from './Layout.astro';
 import Header from '@/components/site/Header.astro';
+import Tag from '@/components/ui/Tag.astro';
 import { formatRelativeTime } from '@/utils/dates';
 
 interface Props {
@@ -20,18 +21,6 @@ const capitalizedMonth = month.charAt(0).toUpperCase() + month.slice(1);
 
 const formattedDate = `${capitalizedMonth} ${day}, ${year}`;
 const relativeTime = formatRelativeTime(frontmatter.lastUpdated);
-
-// Accent color classes
-const accentColors: Record<string, { bg: string; text: string; border: string }> = {
-  blue: { bg: 'bg-blue-500/10', text: 'text-blue-400', border: 'border-blue-500/30' },
-  purple: { bg: 'bg-purple-500/10', text: 'text-purple-400', border: 'border-purple-500/30' },
-  green: { bg: 'bg-emerald-500/10', text: 'text-emerald-400', border: 'border-emerald-500/30' },
-  amber: { bg: 'bg-amber-500/10', text: 'text-amber-400', border: 'border-amber-500/30' },
-  red: { bg: 'bg-red-500/10', text: 'text-red-400', border: 'border-red-500/30' },
-  cyan: { bg: 'bg-cyan-500/10', text: 'text-cyan-400', border: 'border-cyan-500/30' },
-};
-
-const accent = accentColors[frontmatter.accentColor] || accentColors.purple;
 ---
 
 <BaseLayout
@@ -47,13 +36,13 @@ const accent = accentColors[frontmatter.accentColor] || accentColors.purple;
       <!-- Skill Header -->
       <header>
         <div class="flex items-center gap-3 mb-4">
-          <span class={`px-2 py-1 text-xs font-mono rounded ${accent.bg} ${accent.text} ${accent.border} border`}>
+          <Tag color={frontmatter.accentColor} size="xs">
             {frontmatter.installCommand}
-          </span>
+          </Tag>
           <span class="text-xs text-muted-foreground">v{frontmatter.version}</span>
         </div>
 
-        <h1 class="mb-2 text-5xl font-bold">{frontmatter.name}</h1>
+        <h1 class="mb-2 text-2xl font-bold">{frontmatter.name}</h1>
         <p class="text-xl text-muted-foreground font-serif">{frontmatter.tagline}</p>
 
         <div class="flex items-center gap-2 mt-4 text-sm text-muted-foreground">
@@ -68,12 +57,9 @@ const accent = accentColors[frontmatter.accentColor] || accentColors.purple;
       {frontmatter.features.length > 0 && (
         <section class="mt-10">
           <h2 class="text-lg font-semibold mb-4">Features</h2>
-          <ul class="space-y-2">
+          <ul class="ml-6 list-disc ps-4 marker:text-primary-400 space-y-2">
             {frontmatter.features.map((feature) => (
-              <li class="flex items-start gap-2">
-                <span class={`mt-1.5 w-1.5 h-1.5 rounded-full ${accent.bg} ${accent.text}`} />
-                <span class="text-foreground">{feature}</span>
-              </li>
+              <li class="text-foreground">{feature}</li>
             ))}
           </ul>
         </section>
