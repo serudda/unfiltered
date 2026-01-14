@@ -6,7 +6,6 @@ import Callout from "@/components/mdx/Callout.astro";
 import Divider from "@/components/mdx/Divider.astro";
 import Quote from "@/components/mdx/Quote.astro";
 import Audio from "@/components/mdx/Audio.astro";
-import CodeBlock from "@/components/mdx/CodeBlock.astro";
 
 // Optional: React islands (only hydrate when needed)
 // import CodeTabs from '@/components/islands/CodeTabs';
@@ -50,9 +49,6 @@ export const mdxComponents = {
 		<strong className="font-semibold text-foreground" {...props} />
 	),
 
-	// Note: 'code' is intentionally not mapped here to avoid conflicts with CodeBlock
-	// Inline code styling is handled via global CSS or can be added as a custom component
-
 	ul: (props: React.HTMLAttributes<HTMLUListElement>) => (
 		<ul
 			className="my-6 ml-6 list-disc ps-4 marker:text-primary-600 text-xl"
@@ -76,7 +72,6 @@ export const mdxComponents = {
 	),
 
 	blockquote: Quote,
-	pre: CodeBlock,
 
 	/*******************************************
 	 * Custom MDX components
