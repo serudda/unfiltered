@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import SkillLayout from '@/layouts/SkillLayout.astro';
+import { mdxComponents } from '@/mdx/components';
+import { generateCanonicalUrl } from '@/utils/seo';
+
+export const getStaticPaths = (async () => {
+  const skills = await getCollection('skills', ({ data }) => {
+    return import.meta.env.PROD ? !data.draft : true;
+  });
+
+  return skills.map((skill) => ({
+    params: { slug: skill.slug },
+    props: { skill },
+  }));
+}) satisfies GetStaticPaths;
+
+const { skill } = Astro.props;
+const { Content } = await skill.render();
+
+const canonical = generateCanonicalUrl(`/skills/${skill.slug}/`);
+---
+
+<SkillLayout
+  frontmatter={skill.data}
+  canonical={canonical}
+>
+  <Content components={mdxComponents} />
+</SkillLayout>

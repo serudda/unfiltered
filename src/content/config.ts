@@ -13,10 +13,28 @@ const postSchema = z.object({
 	ref: z.string().optional(), // Shared reference ID for translations
 });
 
+// Schema for skills (Claude Code skills)
+const skillSchema = z.object({
+	name: z.string(),
+	tagline: z.string(),
+	description: z.string().optional(),
+	icon: z.string().default("terminal"),
+	accentColor: z.enum(["blue", "purple", "green", "amber", "red", "cyan"]).default("purple"),
+	version: z.string().default("1.0.0"),
+	lastUpdated: z.coerce.date(),
+	features: z.array(z.string()).default([]),
+	installCommand: z.string(),
+	draft: z.boolean().default(false),
+});
+
 // Collections
 export const collections = {
 	posts: defineCollection({
 		type: "content",
 		schema: postSchema,
+	}),
+	skills: defineCollection({
+		type: "content",
+		schema: skillSchema,
 	}),
 };

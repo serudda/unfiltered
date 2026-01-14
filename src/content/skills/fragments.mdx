@@ -1,0 +1,59 @@
+---
+name: "Fragments"
+tagline: "Save, organize, and search knowledge fragments"
+description: "A personal vault for quotes from books, tweets, articles, and anything worth remembering."
+icon: "archive"
+accentColor: "purple"
+version: "1.0.0"
+lastUpdated: 2025-01-14
+features:
+  - "Save fragments from any source (books, tweets, articles)"
+  - "Search through your collection by content or tags"
+  - "Organize with tags and categories"
+  - "Quick retrieval when you need that perfect quote"
+installCommand: "/fragments"
+draft: false
+---
+
+## What is Fragments?
+
+Fragments is a Claude Code skill that helps you build and search your personal knowledge vault. Every time you read something worth remembering—a quote from a book, an insightful tweet, a paragraph from an article—you can save it with `/fragments`.
+
+## How to Use
+
+### Save a new fragment
+
+```
+/fragments save "The best time to plant a tree was 20 years ago. The second best time is now." --source "Chinese Proverb" --tags wisdom, time
+```
+
+### Search your fragments
+
+```
+/fragments search trees
+```
+
+### Browse by tag
+
+```
+/fragments tag wisdom
+```
+
+## Installation
+
+To install this skill in Claude Code, add it to your `.claude/skills/` directory or reference it in your configuration.
+
+```bash
+# Clone or copy the skill to your skills directory
+cp fragments.md ~/.claude/skills/
+```
+
+## Configuration
+
+The skill stores fragments in a local markdown file. You can configure the storage location:
+
+```yaml
+fragments:
+  storage: ~/Documents/fragments.md
+  defaultTags: []
+```

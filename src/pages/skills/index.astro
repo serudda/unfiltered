@@ -1,0 +1,81 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/Layout.astro';
+import Header from '@/components/site/Header.astro';
+import { generateCanonicalUrl } from '@/utils/seo';
+
+// Get all skills (filter drafts in production)
+const skills = (await getCollection('skills', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+})).sort((a, b) => b.data.lastUpdated.getTime() - a.data.lastUpdated.getTime());
+
+const canonical = generateCanonicalUrl('/skills/');
+
+// Accent color classes for cards
+const accentColors: Record<string, { bg: string; text: string; border: string }> = {
+  blue: { bg: 'bg-blue-500/10', text: 'text-blue-400', border: 'border-blue-500/30' },
+  purple: { bg: 'bg-purple-500/10', text: 'text-purple-400', border: 'border-purple-500/30' },
+  green: { bg: 'bg-emerald-500/10', text: 'text-emerald-400', border: 'border-emerald-500/30' },
+  amber: { bg: 'bg-amber-500/10', text: 'text-amber-400', border: 'border-amber-500/30' },
+  red: { bg: 'bg-red-500/10', text: 'text-red-400', border: 'border-red-500/30' },
+  cyan: { bg: 'bg-cyan-500/10', text: 'text-cyan-400', border: 'border-cyan-500/30' },
+};
+---
+
+<BaseLayout
+  title="Skills"
+  description="Claude Code skills I've created. Each skill is a custom command you can install and use."
+  canonical={canonical}
+  lang="en"
+>
+  <Header />
+
+  <main class="py-20">
+    <header class="mb-10">
+      <h1 class="mb-4 font-serif text-xl font-semibold">Skills</h1>
+      <p class="font-serif text-foreground tracking-wide leading-relaxed">
+        Custom <a href="https://docs.anthropic.com/en/docs/claude-code" target="_blank" class="text-foreground hover:text-primary-300 transition-colors border-b border-primary-300/50 hover:border-primary-300">Claude Code</a> skills I've built. Each one is a slash command you can install and use in your own workflow.
+      </p>
+    </header>
+
+    <hr class="my-12 border-dashed-x" />
+
+    <!-- Skills Grid -->
+    <section>
+      {skills.length === 0 ? (
+        <p class="text-muted-foreground">No skills yet. Check back soon.</p>
+      ) : (
+        <div class="space-y-4">
+          {skills.map((skill) => {
+            const accent = accentColors[skill.data.accentColor] || accentColors.purple;
+            return (
+              <a
+                href={`/skills/${skill.slug}/`}
+                class="block p-4 -mx-4 rounded-lg hover:bg-card transition-colors group"
+              >
+                <div class="flex items-start justify-between gap-4">
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-3 mb-1">
+                      <h2 class="font-semibold text-foreground group-hover:text-primary-300 transition-colors">
+                        {skill.data.name}
+                      </h2>
+                      <span class={`px-2 py-0.5 text-xs font-mono rounded ${accent.bg} ${accent.text}`}>
+                        {skill.data.installCommand}
+                      </span>
+                    </div>
+                    <p class="text-sm text-muted-foreground line-clamp-2">
+                      {skill.data.tagline}
+                    </p>
+                  </div>
+                  <span class="text-xs text-muted-foreground shrink-0">
+                    v{skill.data.version}
+                  </span>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      )}
+    </section>
+  </main>
+</BaseLayout>
