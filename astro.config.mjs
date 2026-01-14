@@ -10,6 +10,9 @@ export default defineConfig({
 	integrations: [
 		expressiveCode({
 			themes: ["everforest-light"],
+			defaultProps: {
+				wrap: true,
+			},
 			styleOverrides: {
 				frames: {
 					inlineButtonBorderOpacity: "0",

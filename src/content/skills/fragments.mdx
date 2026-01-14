@@ -15,6 +15,9 @@ installCommand: "/fragments"
 draft: false
 ---
 
+import { Code } from "astro-expressive-code/components";
+import claudeContent from "../../../CLAUDE.md?raw";
+
 ## What is Fragments?
 
 Fragments is a Claude Code skill that helps you build and search your personal knowledge vault. Every time you read something worth remembering—a quote from a book, an insightful tweet, a paragraph from an article—you can save it with `/fragments`.
@@ -29,7 +32,7 @@ You can interact with Fragments using simple commands. All commands start with `
 
 Use the `save` command to add a new fragment to your vault:
 
-```bash
+```bash frame="none"
 /fragments save "The best time to plant a tree was 20 years ago. The second best time is now." --source "Chinese Proverb" --tags wisdom, time
 ```
 
@@ -56,9 +59,14 @@ Pro tip: You can also use `--format json` to get machine-readable output.
 To install this skill in Claude Code, add it to your `.claude/skills/` directory or reference it in your configuration.
 
 ```bash frame="none"
-# Clone or copy the skill to your skills directory
 cp fragments.md ~/.claude/skills/
 ```
+
+## Example: CLAUDE.md file
+
+Here's an example of a project documentation file imported dynamically:
+
+<Code code={claudeContent} lang="markdown" title="CLAUDE.md" frame="none" />
 
 ## Configuration
 
