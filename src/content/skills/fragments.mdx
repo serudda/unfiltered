@@ -19,25 +19,37 @@ draft: false
 
 Fragments is a Claude Code skill that helps you build and search your personal knowledge vault. Every time you read something worth remembering—a quote from a book, an insightful tweet, a paragraph from an article—you can save it with `/fragments`.
 
+Think of it as your personal `knowledge.md` file, but searchable and organized. Use it to capture insights, track `const ideas = []` as they come, or store that perfect quote you'll need later.
+
 ## How to Use
+
+You can interact with Fragments using simple commands. All commands start with `/fragments` followed by an action.
 
 ### Save a new fragment
 
-```
+Use the `save` command to add a new fragment to your vault:
+
+```bash
 /fragments save "The best time to plant a tree was 20 years ago. The second best time is now." --source "Chinese Proverb" --tags wisdom, time
 ```
 
 ### Search your fragments
 
-```
+Looking for that quote about trees? Use the `search` command:
+
+```bash
 /fragments search trees
 ```
 
 ### Browse by tag
 
-```
+Filter fragments by tag using the `tag` command:
+
+```bash
 /fragments tag wisdom
 ```
+
+Pro tip: You can also use `--format json` to get machine-readable output.
 
 ## Installation
 

@@ -1,5 +1,4 @@
 import type React from "react";
-import { QuoteIcon } from "lucide-react";
 import Figure from "@/components/mdx/Figure.astro";
 import Video from "@/components/mdx/Video.astro";
 import SmartLink from "@/components/mdx/SmartLink.astro";
@@ -7,6 +6,7 @@ import Callout from "@/components/mdx/Callout.astro";
 import Divider from "@/components/mdx/Divider.astro";
 import Quote from "@/components/mdx/Quote.astro";
 import Audio from "@/components/mdx/Audio.astro";
+import CodeBlock from "@/components/mdx/CodeBlock.astro";
 
 // Optional: React islands (only hydrate when needed)
 // import CodeTabs from '@/components/islands/CodeTabs';
@@ -50,12 +50,8 @@ export const mdxComponents = {
 		<strong className="font-semibold text-foreground" {...props} />
 	),
 
-	code: (props: React.HTMLAttributes<HTMLElement>) => (
-		<code
-			className="rounded bg-slate-800 px-1 py-0.5 text-sm font-mono text-primary-300"
-			{...props}
-		/>
-	),
+	// Note: 'code' is intentionally not mapped here to avoid conflicts with CodeBlock
+	// Inline code styling is handled via global CSS or can be added as a custom component
 
 	ul: (props: React.HTMLAttributes<HTMLUListElement>) => (
 		<ul
@@ -80,6 +76,7 @@ export const mdxComponents = {
 	),
 
 	blockquote: Quote,
+	pre: CodeBlock,
 
 	/*******************************************
 	 * Custom MDX components
