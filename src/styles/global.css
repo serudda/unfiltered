@@ -102,3 +102,8 @@
 :not(pre) > code {
 	@apply rounded bg-slate-800 px-1 py-0.5 text-sm font-mono text-primary-300;
 }
+
+/* Expressive Code: Always show copy button */
+.expressive-code .copy button {
+	opacity: 1 !important;
+}

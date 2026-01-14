@@ -10,6 +10,11 @@ export default defineConfig({
 	integrations: [
 		expressiveCode({
 			themes: ["everforest-light"],
+			styleOverrides: {
+				frames: {
+					inlineButtonBorderOpacity: "0",
+				},
+			},
 		}),
 		mdx(),
 		react(),
