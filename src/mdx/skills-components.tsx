@@ -76,7 +76,7 @@ export const skillsComponents = {
 	),
 
 	hr: (props: React.HTMLAttributes<HTMLHRElement>) => (
-		<hr className="border-0 h-px bg-border my-12 mx-auto w-16" {...props} />
+		<hr className="border-dashed-x my-10" {...props} />
 	),
 
 	blockquote: Quote,
