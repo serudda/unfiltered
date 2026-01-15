@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/Layout.astro';
 import Header from '@/components/site/Header.astro';
 import Tag from '@/components/ui/Tag.astro';
+import SkillList from '@/components/skills/SkillList.astro';
 import { generateCanonicalUrl } from '@/utils/seo';
 
 // Get all vaults (filter drafts in production)
@@ -86,24 +87,7 @@ const canonical = generateCanonicalUrl('/skills/');
 
                 {/* Skills within vault - clickable links to individual pages */}
                 {vaultSkills.length > 0 && (
-                  <div class="border-t border-border bg-card/30">
-                    {vaultSkills.map((skill, index) => (
-                      <a
-                        href={`/skills/${skill.slug}/`}
-                        class={`block px-4 py-3 hover:bg-card/50 transition-colors ${index > 0 ? 'border-t border-border/50' : ''}`}
-                      >
-                        <div class="flex items-start gap-3">
-                          <Tag color="purple" size="xs">
-                            {skill.data.installCommand}
-                          </Tag>
-                          <div class="min-w-0">
-                            <p class="text-sm font-medium text-foreground">{skill.data.name}</p>
-                            <p class="text-xs text-muted-foreground mt-0.5">{skill.data.tagline}</p>
-                          </div>
-                        </div>
-                      </a>
-                    ))}
-                  </div>
+                  <SkillList skills={vaultSkills}/>
                 )}
               </div>
             );

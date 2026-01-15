@@ -1,0 +1,26 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Tag from '@/components/ui/Tag.astro';
+
+interface Props {
+  skill: CollectionEntry<'skills'>;
+  showBorder?: boolean;
+}
+
+const { skill, showBorder = false } = Astro.props;
+---
+
+<a
+  href={`/skills/${skill.slug}/`}
+  class={`grid grid-cols-subgrid col-span-2 items-center hover:bg-zinc-700/10 transition-colors ${showBorder ? 'border-t border-border' : ''}`}
+>
+  <div class="pl-4 flex items-center justify-center flex-shrink-0 border-r border-border pr-4 py-5">
+    <Tag color="purple" size="xs">
+      {skill.data.installCommand}
+    </Tag>
+  </div>
+  <div class="pr-4 min-w-0">
+    <p class="text-sm font-medium text-foreground">{skill.data.name}</p>
+    <p class="text-xs text-muted-foreground mt-0.5 line-clamp-1">{skill.data.tagline}</p>
+  </div>
+</a>

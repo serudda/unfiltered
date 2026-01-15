@@ -1,0 +1,18 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import SkillListItem from './SkillListItem.astro';
+
+interface Props {
+  skills: CollectionEntry<'skills'>[];
+}
+
+const { skills } = Astro.props;
+---
+
+{skills.length > 0 && (
+  <div class="border border-border rounded-lg overflow-hidden grid grid-cols-[auto_1fr] gap-x-6">
+    {skills.map((skill, index) => (
+      <SkillListItem skill={skill} showBorder={index > 0} />
+    ))}
+  </div>
+)}
