@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import SkillLayout from '@/layouts/SkillLayout.astro';
-import { mdxComponents } from '@/mdx/components';
+import { skillsComponents } from '@/mdx/skills-components';
 import { generateCanonicalUrl } from '@/utils/seo';
 
 export const getStaticPaths = (async () => {
@@ -37,5 +37,5 @@ const canonical = generateCanonicalUrl(`/skills/${skill.slug}/`);
   canonical={canonical}
   vault={vault}
 >
-  <Content components={mdxComponents} />
+  <Content components={skillsComponents} />
 </SkillLayout>

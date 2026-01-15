@@ -7,40 +7,44 @@ import Divider from "@/components/mdx/Divider.astro";
 import Quote from "@/components/mdx/Quote.astro";
 import Audio from "@/components/mdx/Audio.astro";
 
-// Optional: React islands (only hydrate when needed)
-// import CodeTabs from '@/components/islands/CodeTabs';
-
 /**
- * MDX Component Registry
- * This is the single source of truth for all MDX components used in posts
+ * MDX Component Registry for Blog Posts
+ * Typography optimized for long-form reading with serif fonts and larger text
  */
-export const mdxComponents = {
+export const blogComponents = {
 	/*******************************************
 	 * Native HTML tags
 	 ******************************************/
 	img: Figure,
 	a: SmartLink,
 	p: (props: React.HTMLAttributes<HTMLParagraphElement>) => (
-		<p className="leading-relaxed mb-8" {...props} />
+		<p className="leading-relaxed mb-8 text-xl font-serif" {...props} />
 	),
 
 	h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-		<h1
-			className="text-[2.75rem] font-bold leading-tight mt-0 mb-6"
-			{...props}
-		/>
+		<h1 className="text-5xl font-bold leading-tight mt-0 mb-6" {...props} />
 	),
 
 	h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
 		<h2
-			className="text-[2rem] font-semibold leading-snug mt-12 mb-4"
+			className="text-3xl font-semibold leading-snug mt-12 mb-4"
+			id={props.id}
 			{...props}
 		/>
 	),
 
 	h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
 		<h3
-			className="text-[2rem] font-semibold leading-snug mt-10 mb-3"
+			className="text-2xl font-semibold leading-snug mt-10 mb-3"
+			id={props.id}
+			{...props}
+		/>
+	),
+
+	h4: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
+		<h4
+			className="text-xl font-semibold leading-snug mt-8 mb-3"
+			id={props.id}
 			{...props}
 		/>
 	),
@@ -51,7 +55,7 @@ export const mdxComponents = {
 
 	ul: (props: React.HTMLAttributes<HTMLUListElement>) => (
 		<ul
-			className="my-6 ml-6 list-disc ps-4 marker:text-primary-600 text-xl"
+			className="my-6 ml-6 list-disc ps-4 marker:text-primary-600 text-xl font-serif"
 			{...props}
 		/>
 	),
@@ -80,9 +84,4 @@ export const mdxComponents = {
 	Callout,
 	Divider,
 	Audio,
-
-	/*******************************************
-	 * Islands (uncomment when needed)
-	 ******************************************/
-	// CodeTabs,
 };

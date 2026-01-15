@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import VaultLayout from '@/layouts/VaultLayout.astro';
-import { mdxComponents } from '@/mdx/components';
+import { skillsComponents } from '@/mdx/skills-components';
 import { generateCanonicalUrl } from '@/utils/seo';
 
 export async function getStaticPaths() {
@@ -32,5 +32,5 @@ const canonical = generateCanonicalUrl(`/skills/vaults/${vault.slug}/`);
 ---
 
 <VaultLayout frontmatter={vault.data} canonical={canonical} skills={skills}>
-  <Content components={mdxComponents} />
+  <Content components={skillsComponents} />
 </VaultLayout>

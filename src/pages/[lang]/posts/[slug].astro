@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import PostLayout from '@/layouts/PostLayout.astro';
-import { mdxComponents } from '@/mdx/components';
+import { blogComponents } from '@/mdx/blog-components';
 import { generateCanonicalUrl } from '@/utils/seo';
 
 export const getStaticPaths = (async () => {
@@ -50,7 +50,6 @@ const canonical = generateCanonicalUrl(`/${lang}/posts/${post.slug}`);
   canonical={canonical}
   lang={post.data.lang}
   alternateLinks={alternateLinks}
-  translations={translations}
 >
-  <Content components={mdxComponents} />
+  <Content components={blogComponents} />
 </PostLayout>

@@ -10,23 +10,11 @@ draft: false
 
 import { Code } from "astro-expressive-code/components";
 
-## What is Fragments?
-
-Fragments is a Claude Code vault that helps you build and search your personal knowledge collection. Every time you read something worth remembering—a quote from a book, an insightful tweet, a paragraph from an article—you can save it with this set of skills.
-
-Think of it as your personal `knowledge.md` file, but searchable and organized. Use it to capture insights, track ideas as they come, or store that perfect quote you'll need later.
-
-## Getting Started
-
-This vault includes three skills that work together:
-
-1. **Save Fragment** – Capture any piece of knowledge instantly
-2. **Organize Fragments** – Keep your vault tidy and well-categorized
-3. **Browse Fragments** – Find exactly what you need when you need it
-
 ## Usage
 
-1. Para guardar un fragmento de texto, quote, snippet, etc. invoca el skill `save-fragment`:
+### 1. Guardar un fragmento
+
+Para guardar un fragmento de texto, quote, snippet, etc. invoca el skill save-fragment:
 
 ```bash frame="none"
 /save-fragment "The best time to plant a tree was 20 years ago. The second best time is now."
@@ -47,7 +35,7 @@ El Agent te preguntara por:
 
 Everything goes to `inbox.md` first. You can then organize it later.
 
-2. Para organizar tus fragmentos invoca el skill `organize-fragments`:
+### 2. Para organizar tus fragmentos invoca el skill `organize-fragments`:
 
 ```bash frame="none"
 /organize-fragments
