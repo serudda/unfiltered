@@ -5,6 +5,7 @@ import Header from '@/components/site/Header.astro';
 import Tag from '@/components/ui/Tag.astro';
 import SkillList from '@/components/skills/SkillList.astro';
 import { generateCanonicalUrl } from '@/utils/seo';
+import { DynamicIcon } from '@/components/ui/DynamicIcon';
 
 // Get all vaults (filter drafts in production)
 const vaults = (await getCollection('vaults', ({ data }) => {
@@ -31,6 +32,7 @@ allSkills.forEach((skill) => {
 });
 
 const canonical = generateCanonicalUrl('/skills/');
+
 ---
 
 <BaseLayout
@@ -43,8 +45,8 @@ const canonical = generateCanonicalUrl('/skills/');
 
   <main class="py-20">
     <header class="mb-10">
-      <h1 class="mb-4 font-serif text-xl font-semibold">Skills</h1>
-      <p class="font-serif text-foreground tracking-wide leading-relaxed">
+      <h1 class="mb-2 text-2xl font-semibold">My Skills</h1>
+      <p class="text-foreground text-lg tracking-wide leading-relaxed">
         Custom <a href="https://docs.anthropic.com/en/docs/claude-code" target="_blank" class="text-foreground hover:text-primary-300 transition-colors border-b border-primary-300/50 hover:border-primary-300">Claude Code</a> skills and vaults I've built. Each one is a slash command you can install and use in your own workflow.
       </p>
     </header>
@@ -54,34 +56,32 @@ const canonical = generateCanonicalUrl('/skills/');
     <!-- Vaults Section -->
     {vaults.length > 0 && (
       <section class="mb-12">
-        <h2 class="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-6">Vaults</h2>
+        <h2 class="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4 ml-1">My Personal Vaults</h2>
         <div class="space-y-6">
           {vaults.map((vault) => {
             const vaultSkills = skillsByVault.get(vault.slug) || [];
             return (
-              <div class="border border-border rounded-lg overflow-hidden">
+              <div class="border border-border hover:border-purple-900/50 transition-colors rounded-lg overflow-hidden">
                 {/* Vault Header */}
                 <a
                   href={`/skills/vaults/${vault.slug}/`}
-                  class="block p-4 hover:bg-card/50 transition-colors border-b border-border"
+                  class="block p-4 border-b border-border hover:bg-purple-900/10 transition-colors"
                 >
                   <div class="flex items-start justify-between gap-4">
                     <div class="flex-1 min-w-0">
-                      <div class="flex items-center gap-3 mb-1">
-                        <h3 class="font-semibold text-foreground hover:text-primary-300 transition-colors">
+                      <div class="flex items-center gap-2 mb-1 select-none">
+                        <h3 class="text-lg font-semibold text-foreground hover:text-primary-300 transition-colors">
                           {vault.data.name}
                         </h3>
-                        <span class="text-xs text-muted-foreground">
+                        <span class="text-sm text-muted-foreground">
                           {vaultSkills.length} skills
                         </span>
                       </div>
-                      <p class="text-sm text-muted-foreground">
+                      <p class="text-sm text-foreground/70">
                         {vault.data.tagline}
                       </p>
                     </div>
-                    <span class="text-xs text-muted-foreground shrink-0">
-                      v{vault.data.version}
-                    </span>
+                    <DynamicIcon name={vault.data.icon} className="text-purple-600" client:load />
                   </div>
                 </a>
 

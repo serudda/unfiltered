@@ -2,9 +2,8 @@
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from './Layout.astro';
 import Header from '@/components/site/Header.astro';
-import Tag from '@/components/ui/Tag.astro';
+import { DynamicIcon } from '@/components/ui/DynamicIcon';
 import SkillList from '@/components/skills/SkillList.astro';
-import { formatRelativeTime } from '@/utils/dates';
 
 interface Props {
   frontmatter: CollectionEntry<'vaults'>['data'];
@@ -13,16 +12,6 @@ interface Props {
 }
 
 const { frontmatter, canonical, skills } = Astro.props;
-
-// Format date
-const dateObj = new Date(frontmatter.lastUpdated);
-const day = dateObj.getDate();
-const year = dateObj.getFullYear();
-const month = dateObj.toLocaleDateString('en-US', { month: 'long' });
-const capitalizedMonth = month.charAt(0).toUpperCase() + month.slice(1);
-
-const formattedDate = `${capitalizedMonth} ${day}, ${year}`;
-const relativeTime = formatRelativeTime(frontmatter.lastUpdated);
 ---
 
 
@@ -36,32 +25,30 @@ const relativeTime = formatRelativeTime(frontmatter.lastUpdated);
 
   <main class="py-20">
     <article>
+      <!-- Vault Breadcrumb -->
+      <nav class="mb-6">
+        <a
+          href="/skills/"
+          class="text-sm text-muted-foreground hover:text-primary-300 transition-colors"
+        >
+          ← Back to all skills
+        </a>
+      </nav>
+      
+
       <!-- Vault Header -->
-      <header>
-        <div class="flex items-center gap-3 mb-4">
-          <Tag color="purple" size="xs">
-            vault
-          </Tag>
-          <span class="text-xs text-muted-foreground">v{frontmatter.version}</span>
-          <span class="text-xs text-muted-foreground">•</span>
-          <span class="text-xs text-muted-foreground">{skills.length} skills</span>
-        </div>
-
-        <h1 class="mb-2 text-2xl font-bold">{frontmatter.name}</h1>
-        <p class="text-xl text-muted-foreground font-serif">{frontmatter.tagline}</p>
-
-        <div class="flex items-center gap-2 mt-4 text-sm text-muted-foreground">
-          <span>Last updated:</span>
-          <time datetime={frontmatter.lastUpdated.toISOString()}>
-            {formattedDate} ({relativeTime})
-          </time>
-        </div>
+      <header>        
+        <h1 class="mb-1 text-2xl font-bold flex items-center gap-2">
+          <DynamicIcon name={frontmatter.icon} className="text-purple-600 size-5" client:load />
+          {frontmatter.name}
+        </h1>
+        <p class="text-lg text-muted-foreground">{frontmatter.tagline}</p>
       </header>
 
       <!-- Skills in this vault (dynamically fetched) -->
       {skills.length > 0 && (
         <section class="mt-10">
-          <h2 class="text-lg font-semibold mb-4">Skills in this vault</h2>
+          <h2 class="text-xl font-semibold mb-2 ml-1">Skills in this vault</h2>
           <SkillList class='border border-border rounded-lg' skills={skills} />
         </section>
       )}
@@ -69,7 +56,7 @@ const relativeTime = formatRelativeTime(frontmatter.lastUpdated);
       <hr class="border-dashed-x my-10" />
 
       <!-- Vault Content -->
-      <div class="font-serif text-xl text-foreground">
+      <div class="text-xl text-foreground">
         <slot />
       </div>
 
