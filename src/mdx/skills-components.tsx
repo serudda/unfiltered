@@ -27,7 +27,7 @@ export const skillsComponents = {
 
 	h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
 		<h2
-			className="mt-10 mb-4 scroll-mt-18 group text-foreground hover:text-foreground/90 text-2xl font-bold text-balance inline-flex items-center gap-2"
+			className="mt-10 mb-4 scroll-mt-18 text-foreground hover:text-foreground/90 text-2xl font-bold text-balance"
 			id={props.id}
 			{...props}
 		/>
@@ -51,6 +51,10 @@ export const skillsComponents = {
 
 	strong: (props: React.HTMLAttributes<HTMLElement>) => (
 		<strong className="font-semibold text-foreground" {...props} />
+	),
+
+	em: (props: React.HTMLAttributes<HTMLElement>) => (
+		<em className="text-muted-foreground not-italic" {...props} />
 	),
 
 	ul: (props: React.HTMLAttributes<HTMLUListElement>) => (

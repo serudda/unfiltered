@@ -12,42 +12,42 @@ import { Code } from "astro-expressive-code/components";
 
 ## Usage
 
-### 1. Guardar un fragmento
+### 1. Save a Fragment
 
-Para guardar un fragmento de texto, quote, snippet, etc. invoca el skill save-fragment:
+To save a text fragment, quote, snippet, etc., invoke the save-fragment skill:
 
 ```bash frame="none"
 /save-fragment "The best time to plant a tree was 20 years ago. The second best time is now."
 ```
 
-En lenguaje natural:
+In natural language:
 
 ```bash frame="none"
-Guarda este fragmento: "The best time to plant a tree was 20 years ago. The second best time is now."
+Save this fragment: "The best time to plant a tree was 20 years ago. The second best time is now."
 ```
 
-El Agent te preguntara por:
+The Agent will ask you for:
 
-- `Author` — Who said/who wrote it?
-- `Source` — Where does it come from? (author, book, tweet, article)
-- `Tags` — It will show you existing tags and suggest some
-- `Why` — Why did it catch your attention? (Importante para dar más contexto al Skill, al momento de buscar o conectar puntos de conocimiento)
+- `Author`: Who said/who wrote it?
+- `Source`: Where does it come from? _(author, book, tweet, article)_
+- `Tags`: It will show you existing tags and suggest some
+- `Why`: Why did it catch your attention? _(Important to give more context to the Skill when searching or connecting knowledge points)_
 
 Everything goes to `inbox.md` first. You can then organize it later.
 
-### 2. Para organizar tus fragmentos invoca el skill `organize-fragments`:
+### 2. To organize your fragments, invoke the `organize-fragments` skill:
 
 ```bash frame="none"
 /organize-fragments
 ```
 
-En lenguaje natural:
+In natural language:
 
 ```bash frame="none"
-Organiza mis fragmentos
+Organize my fragments
 ```
 
-El Agent te sugerira una categoría para cada fragmento.
+The Agent will suggest a category for each fragment.
 
 ```bash frame="none"
 I suggest: **building.md** (because of #build-in-public)
@@ -58,7 +58,7 @@ I suggest: **building.md** (because of #build-in-public)
 4. ✕ Delete
 ```
 
-Al responder, el Agent appends fragment to destination file, removes from `inbox.md`, and confirms the action.
+When you respond, the Agent appends the fragment to the destination file, removes it from `inbox.md`, and confirms the action.
 
 ## Installation
 

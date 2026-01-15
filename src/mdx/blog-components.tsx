@@ -53,6 +53,10 @@ export const blogComponents = {
 		<strong className="font-semibold text-foreground" {...props} />
 	),
 
+	em: (props: React.HTMLAttributes<HTMLElement>) => (
+		<em className="text-muted-foreground not-italic" {...props} />
+	),
+
 	ul: (props: React.HTMLAttributes<HTMLUListElement>) => (
 		<ul
 			className="my-6 ml-6 list-disc ps-4 marker:text-primary-600 text-xl font-serif"
