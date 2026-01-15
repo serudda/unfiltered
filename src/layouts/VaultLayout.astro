@@ -17,7 +17,7 @@ const { frontmatter, canonical, skills } = Astro.props;
 
 <BaseLayout
   title={frontmatter.name}
-  description={frontmatter.tagline}
+  description={frontmatter.description}
   canonical={canonical}
   lang="en"
 >
@@ -42,7 +42,7 @@ const { frontmatter, canonical, skills } = Astro.props;
           <DynamicIcon name={frontmatter.icon} className="text-purple-600 size-5" client:load />
           {frontmatter.name}
         </h1>
-        <p class="text-lg text-muted-foreground">{frontmatter.tagline}</p>
+        <p class="text-lg text-muted-foreground">{frontmatter.description}</p>
       </header>
 
       <!-- Skills in this vault (dynamically fetched) -->

@@ -1,7 +1,7 @@
 ---
 name: "Fragments"
-tagline: "Save, organize, and search knowledge fragments"
-description: "A personal vault for quotes from books, tweets, articles, and anything worth remembering."
+tagline: "Save and organize small pieces of knowledge: text fragments, quotes, snippets, etc."
+description: "A vault to capture text fragments and turn them into a living system: save them to an Inbox, organize them by category, then browse them to find connections and generate insights."
 icon: "Feather"
 version: "1.0.0"
 lastUpdated: 2025-01-15
@@ -24,18 +24,53 @@ This vault includes three skills that work together:
 2. **Organize Fragments** – Keep your vault tidy and well-categorized
 3. **Browse Fragments** – Find exactly what you need when you need it
 
-## Quick Example
+## Usage
+
+1. Para guardar un fragmento de texto, quote, snippet, etc. invoca el skill `save-fragment`:
 
 ```bash frame="none"
-# Save a new fragment
-/save-fragment "The best time to plant a tree was 20 years ago. The second best time is now." --source "Chinese Proverb" --tags wisdom, time
-
-# Search your fragments
-/browse-fragments trees
-
-# Organize your inbox
-/organize-fragments --inbox-only
+/save-fragment "The best time to plant a tree was 20 years ago. The second best time is now."
 ```
+
+En lenguaje natural:
+
+```bash frame="none"
+Guarda este fragmento: "The best time to plant a tree was 20 years ago. The second best time is now."
+```
+
+El Agent te preguntara por:
+
+- `Author` — Who said/who wrote it?
+- `Source` — Where does it come from? (author, book, tweet, article)
+- `Tags` — It will show you existing tags and suggest some
+- `Why` — Why did it catch your attention? (Importante para dar más contexto al Skill, al momento de buscar o conectar puntos de conocimiento)
+
+Everything goes to `inbox.md` first. You can then organize it later.
+
+2. Para organizar tus fragmentos invoca el skill `organize-fragments`:
+
+```bash frame="none"
+/organize-fragments
+```
+
+En lenguaje natural:
+
+```bash frame="none"
+Organiza mis fragmentos
+```
+
+El Agent te sugerira una categoría para cada fragmento.
+
+```bash frame="none"
+I suggest: **building.md** (because of #build-in-public)
+
+1. ✓ Move to building.md
+2. → Another category
+3. ⏭ Skip
+4. ✕ Delete
+```
+
+Al responder, el Agent appends fragment to destination file, removes from `inbox.md`, and confirms the action.
 
 ## Installation
 
@@ -71,7 +106,6 @@ fragments:
 
 ## Why Use Fragments?
 
-- **Never lose a good idea again** – Capture thoughts instantly while coding
-- **Build your second brain** – Create a searchable knowledge base over time
-- **Stay in flow** – Quick commands mean minimal context switching
-- **Everything in one place** – Books, tweets, articles, code—all searchable
+- **Never lose a good idea again** – Capture thoughts instantly while reading, studying, coding, etc.
+- **Build your second brain** – Create a searchable knowledge base over time.
+- **Stay in flow** – No interrupting your flow to save a text fragment.

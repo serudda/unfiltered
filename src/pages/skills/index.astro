@@ -37,7 +37,7 @@ const canonical = generateCanonicalUrl('/skills/');
 
 <BaseLayout
   title="Skills"
-  description="Claude Code skills and vaults I've created. Each skill is a custom command you can install and use."
+  description="Custom Claude Skills and Vaults I've created. Each skill is a custom command you can use in your own workflow."
   canonical={canonical}
   lang="en"
 >
@@ -45,9 +45,9 @@ const canonical = generateCanonicalUrl('/skills/');
 
   <main class="py-20">
     <header class="mb-10">
-      <h1 class="mb-2 text-2xl font-semibold">My Skills</h1>
+      <h1 class="mb-2 text-2xl font-semibold">My Agent Skills</h1>
       <p class="text-foreground text-lg tracking-wide leading-relaxed">
-        Custom <a href="https://docs.anthropic.com/en/docs/claude-code" target="_blank" class="text-foreground hover:text-primary-300 transition-colors border-b border-primary-300/50 hover:border-primary-300">Claude Code</a> skills and vaults I've built. Each one is a slash command you can install and use in your own workflow.
+        Custom <a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview?utm_source=serudda.com" target="_blank" class="text-foreground hover:text-primary-300 transition-colors border-b border-primary-300/50 hover:border-primary-300">Claude Skills</a> and <a href="https://help.obsidian.md/vault?utm_source=serudda.com" target="_blank" class="text-foreground hover:text-primary-300 transition-colors border-b border-primary-300/50 hover:border-primary-300">Vaults</a> designed for personal automation. 
       </p>
     </header>
 
@@ -70,7 +70,7 @@ const canonical = generateCanonicalUrl('/skills/');
                   <div class="flex items-start justify-between gap-4">
                     <div class="flex-1 min-w-0">
                       <div class="flex items-center gap-2 mb-1 select-none">
-                        <h3 class="text-lg font-semibold text-foreground hover:text-primary-300 transition-colors">
+                        <h3 class="text-lg font-semibold text-foreground transition-colors">
                           {vault.data.name}
                         </h3>
                         <span class="text-sm text-muted-foreground">
