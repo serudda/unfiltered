@@ -11,12 +11,25 @@ const vaults = (await getCollection('vaults', ({ data }) => {
 })).sort((a, b) => b.data.lastUpdated.getTime() - a.data.lastUpdated.getTime());
 
 // Get all skills (filter drafts in production)
-const skills = (await getCollection('skills', ({ data }) => {
+const allSkills = (await getCollection('skills', ({ data }) => {
   return import.meta.env.PROD ? !data.draft : true;
 })).sort((a, b) => b.data.lastUpdated.getTime() - a.data.lastUpdated.getTime());
 
-const canonical = generateCanonicalUrl('/skills/');
+// Group skills by vault
+const skillsByVault = new Map<string, typeof allSkills>();
+const independentSkills: typeof allSkills = [];
 
+allSkills.forEach((skill) => {
+  if (skill.data.vault) {
+    const vaultSkills = skillsByVault.get(skill.data.vault) || [];
+    vaultSkills.push(skill);
+    skillsByVault.set(skill.data.vault, vaultSkills);
+  } else {
+    independentSkills.push(skill);
+  }
+});
+
+const canonical = generateCanonicalUrl('/skills/');
 ---
 
 <BaseLayout
@@ -43,6 +56,7 @@ const canonical = generateCanonicalUrl('/skills/');
         <h2 class="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-6">Vaults</h2>
         <div class="space-y-6">
           {vaults.map((vault) => {
+            const vaultSkills = skillsByVault.get(vault.slug) || [];
             return (
               <div class="border border-border rounded-lg overflow-hidden">
                 {/* Vault Header */}
@@ -57,7 +71,7 @@ const canonical = generateCanonicalUrl('/skills/');
                           {vault.data.name}
                         </h3>
                         <span class="text-xs text-muted-foreground">
-                          {vault.data.skills.length} skills
+                          {vaultSkills.length} skills
                         </span>
                       </div>
                       <p class="text-sm text-muted-foreground">
@@ -70,22 +84,27 @@ const canonical = generateCanonicalUrl('/skills/');
                   </div>
                 </a>
 
-                {/* Skills within vault - always visible */}
-                <div class="border-t border-border bg-card/30">
-                  {vault.data.skills.map((skill, index) => (
-                    <div class={`px-4 py-3 ${index > 0 ? 'border-t border-border/50' : ''}`}>
-                      <div class="flex items-start gap-3">
-                        <Tag color="purple" size="xs">
-                          {skill.command}
-                        </Tag>
-                        <div class="min-w-0">
-                          <p class="text-sm font-medium text-foreground">{skill.name}</p>
-                          <p class="text-xs text-muted-foreground mt-0.5">{skill.description}</p>
+                {/* Skills within vault - clickable links to individual pages */}
+                {vaultSkills.length > 0 && (
+                  <div class="border-t border-border bg-card/30">
+                    {vaultSkills.map((skill, index) => (
+                      <a
+                        href={`/skills/${skill.slug}/`}
+                        class={`block px-4 py-3 hover:bg-card/50 transition-colors ${index > 0 ? 'border-t border-border/50' : ''}`}
+                      >
+                        <div class="flex items-start gap-3">
+                          <Tag color="purple" size="xs">
+                            {skill.data.installCommand}
+                          </Tag>
+                          <div class="min-w-0">
+                            <p class="text-sm font-medium text-foreground">{skill.data.name}</p>
+                            <p class="text-xs text-muted-foreground mt-0.5">{skill.data.tagline}</p>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                      </a>
+                    ))}
+                  </div>
+                )}
               </div>
             );
           })}
@@ -93,12 +112,12 @@ const canonical = generateCanonicalUrl('/skills/');
       </section>
     )}
 
-    <!-- Skills Section -->
-    {skills.length > 0 && (
+    <!-- Independent Skills Section -->
+    {independentSkills.length > 0 && (
       <section>
         <h2 class="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-6">Skills</h2>
         <div class="space-y-4">
-          {skills.map((skill) => {
+          {independentSkills.map((skill) => {
             return (
               <a
                 href={`/skills/${skill.slug}/`}
@@ -130,7 +149,7 @@ const canonical = generateCanonicalUrl('/skills/');
     )}
 
     {/* Empty state */}
-    {vaults.length === 0 && skills.length === 0 && (
+    {vaults.length === 0 && allSkills.length === 0 && (
       <p class="text-muted-foreground">No skills or vaults yet. Check back soon.</p>
     )}
   </main>

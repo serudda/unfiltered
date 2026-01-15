@@ -8,9 +8,10 @@ import { formatRelativeTime } from '@/utils/dates';
 interface Props {
   frontmatter: CollectionEntry<'skills'>['data'];
   canonical: string;
+  vault?: CollectionEntry<'vaults'>;
 }
 
-const { frontmatter, canonical } = Astro.props;
+const { frontmatter, canonical, vault } = Astro.props;
 
 // Format date
 const dateObj = new Date(frontmatter.lastUpdated);
@@ -33,6 +34,19 @@ const relativeTime = formatRelativeTime(frontmatter.lastUpdated);
 
   <main class="py-20">
     <article>
+      <!-- Vault Breadcrumb (if skill belongs to a vault) -->
+      {vault && (
+        <nav class="mb-6">
+          <a 
+            href={`/skills/vaults/${vault.slug}/`}
+            class="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary-300 transition-colors"
+          >
+            <span>←</span>
+            <span>{vault.data.name} Vault</span>
+          </a>
+        </nav>
+      )}
+
       <!-- Skill Header -->
       <header>
         <div class="flex items-center gap-3 mb-4">
@@ -40,6 +54,12 @@ const relativeTime = formatRelativeTime(frontmatter.lastUpdated);
             {frontmatter.installCommand}
           </Tag>
           <span class="text-xs text-muted-foreground">v{frontmatter.version}</span>
+          {vault && (
+            <>
+              <span class="text-xs text-muted-foreground">•</span>
+              <span class="text-xs text-muted-foreground">Part of {vault.data.name}</span>
+            </>
+          )}
         </div>
 
         <h1 class="mb-2 text-2xl font-bold">{frontmatter.name}</h1>
@@ -72,14 +92,23 @@ const relativeTime = formatRelativeTime(frontmatter.lastUpdated);
         <slot />
       </div>
 
-      <!-- Back to Skills -->
+      <!-- Back Navigation -->
       <div class="mt-16 pt-8 border-t border-border">
-        <a
-          href="/skills/"
-          class="text-sm text-muted-foreground hover:text-primary-300 transition-colors"
-        >
-          ← Back to all skills
-        </a>
+        {vault ? (
+          <a
+            href={`/skills/vaults/${vault.slug}/`}
+            class="text-sm text-muted-foreground hover:text-primary-300 transition-colors"
+          >
+            ← Back to {vault.data.name} vault
+          </a>
+        ) : (
+          <a
+            href="/skills/"
+            class="text-sm text-muted-foreground hover:text-primary-300 transition-colors"
+          >
+            ← Back to all skills
+          </a>
+        )}
       </div>
     </article>
   </main>

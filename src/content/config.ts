@@ -24,9 +24,12 @@ const skillSchema = z.object({
 	features: z.array(z.string()).default([]),
 	installCommand: z.string(),
 	draft: z.boolean().default(false),
+	// Optional vault reference - slug of parent vault (e.g., "fragments")
+	vault: z.string().optional(),
 });
 
 // Schema for vaults (containers grouping related skills)
+// Skills are fetched dynamically from the skills collection by matching vault slug
 const vaultSchema = z.object({
 	name: z.string(),
 	tagline: z.string(),
@@ -35,14 +38,6 @@ const vaultSchema = z.object({
 	version: z.string().default("1.0.0"),
 	lastUpdated: z.coerce.date(),
 	draft: z.boolean().default(false),
-	// Skills within this vault
-	skills: z.array(
-		z.object({
-			name: z.string(),
-			command: z.string(),
-			description: z.string(),
-		})
-	),
 });
 
 // Collections

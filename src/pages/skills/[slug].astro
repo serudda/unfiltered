@@ -10,13 +10,23 @@ export const getStaticPaths = (async () => {
     return import.meta.env.PROD ? !data.draft : true;
   });
 
+  // Get all vaults to pass vault info to skills that belong to one
+  const vaults = await getCollection('vaults', ({ data }) => {
+    return import.meta.env.PROD ? !data.draft : true;
+  });
+
+  const vaultMap = new Map(vaults.map((v) => [v.slug, v]));
+
   return skills.map((skill) => ({
     params: { slug: skill.slug },
-    props: { skill },
+    props: { 
+      skill,
+      vault: skill.data.vault ? vaultMap.get(skill.data.vault) : undefined,
+    },
   }));
 }) satisfies GetStaticPaths;
 
-const { skill } = Astro.props;
+const { skill, vault } = Astro.props;
 const { Content } = await skill.render();
 
 const canonical = generateCanonicalUrl(`/skills/${skill.slug}/`);
@@ -25,6 +35,7 @@ const canonical = generateCanonicalUrl(`/skills/${skill.slug}/`);
 <SkillLayout
   frontmatter={skill.data}
   canonical={canonical}
+  vault={vault}
 >
   <Content components={mdxComponents} />
 </SkillLayout>

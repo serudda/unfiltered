@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import VaultLayout from '@/layouts/VaultLayout.astro';
+import { mdxComponents } from '@/mdx/components';
 import { generateCanonicalUrl } from '@/utils/seo';
 
 export async function getStaticPaths() {
@@ -8,18 +9,28 @@ export async function getStaticPaths() {
     return import.meta.env.PROD ? !data.draft : true;
   });
 
+  // Get all skills to find those belonging to each vault
+  const allSkills = await getCollection('skills', ({ data }) => {
+    return import.meta.env.PROD ? !data.draft : true;
+  });
+
   return vaults.map((vault) => ({
     params: { slug: vault.slug },
-    props: { vault },
+    props: { 
+      vault,
+      skills: allSkills
+        .filter((skill) => skill.data.vault === vault.slug)
+        .sort((a, b) => a.data.name.localeCompare(b.data.name)),
+    },
   }));
 }
 
-const { vault } = Astro.props;
+const { vault, skills } = Astro.props;
 const { Content } = await vault.render();
 
 const canonical = generateCanonicalUrl(`/skills/vaults/${vault.slug}/`);
 ---
 
-<VaultLayout frontmatter={vault.data} canonical={canonical}>
-  <Content />
+<VaultLayout frontmatter={vault.data} canonical={canonical} skills={skills}>
+  <Content components={mdxComponents} />
 </VaultLayout>

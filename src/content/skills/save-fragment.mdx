@@ -1,0 +1,67 @@
+---
+name: "Save Fragment"
+tagline: "Save any quote, idea, or snippet to your vault"
+description: "Quickly capture and store knowledge fragments from any source with metadata and tags."
+icon: "bookmark-plus"
+version: "1.0.0"
+lastUpdated: 2025-01-15
+features:
+  - "Save fragments from books, tweets, articles, or any source"
+  - "Add source attribution automatically"
+  - "Apply tags for easy categorization"
+  - "Supports markdown formatting in content"
+installCommand: "/save-fragment"
+draft: false
+vault: "fragments"
+---
+
+import { Code } from "astro-expressive-code/components";
+
+## What is Save Fragment?
+
+Save Fragment is a Claude Code skill that lets you quickly capture any piece of knowledge worth remembering. Whether it's a quote from a book, an insightful tweet, or a paragraph from an article, you can save it instantly with full attribution.
+
+## How to Use
+
+Use the `/save-fragment` command followed by the content you want to save:
+
+```bash frame="none"
+/save-fragment "The best time to plant a tree was 20 years ago. The second best time is now." --source "Chinese Proverb" --tags wisdom, time
+```
+
+### Parameters
+
+| Parameter    | Required | Description                             |
+| ------------ | -------- | --------------------------------------- |
+| `content`    | Yes      | The text content to save (in quotes)    |
+| `--source`   | No       | Attribution for the fragment            |
+| `--tags`     | No       | Comma-separated tags for categorization |
+| `--category` | No       | Main category (defaults to "inbox")     |
+
+### Examples
+
+**Save a book quote:**
+
+```bash frame="none"
+/save-fragment "We are what we repeatedly do. Excellence, then, is not an act, but a habit." --source "Aristotle" --tags philosophy, habits
+```
+
+**Save a code snippet:**
+
+```bash frame="none"
+/save-fragment "const sum = arr.reduce((a, b) => a + b, 0)" --source "JavaScript patterns" --tags javascript, snippets --category code
+```
+
+## Output
+
+The skill saves the fragment to your configured storage location (default: `~/Documents/fragments.md`) in a structured format:
+
+```markdown
+## Fragment #42
+
+> The best time to plant a tree was 20 years ago. The second best time is now.
+
+**Source:** Chinese Proverb  
+**Tags:** #wisdom #time  
+**Saved:** 2025-01-15
+```
