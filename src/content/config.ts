@@ -19,12 +19,30 @@ const skillSchema = z.object({
 	tagline: z.string(),
 	description: z.string().optional(),
 	icon: z.string().default("terminal"),
-	accentColor: z.enum(["blue", "purple", "green", "amber", "red", "cyan"]).default("purple"),
 	version: z.string().default("1.0.0"),
 	lastUpdated: z.coerce.date(),
 	features: z.array(z.string()).default([]),
 	installCommand: z.string(),
 	draft: z.boolean().default(false),
+});
+
+// Schema for vaults (containers grouping related skills)
+const vaultSchema = z.object({
+	name: z.string(),
+	tagline: z.string(),
+	description: z.string().optional(),
+	icon: z.string().default("archive"),
+	version: z.string().default("1.0.0"),
+	lastUpdated: z.coerce.date(),
+	draft: z.boolean().default(false),
+	// Skills within this vault
+	skills: z.array(
+		z.object({
+			name: z.string(),
+			command: z.string(),
+			description: z.string(),
+		})
+	),
 });
 
 // Collections
@@ -36,5 +54,9 @@ export const collections = {
 	skills: defineCollection({
 		type: "content",
 		schema: skillSchema,
+	}),
+	vaults: defineCollection({
+		type: "content",
+		schema: vaultSchema,
 	}),
 };

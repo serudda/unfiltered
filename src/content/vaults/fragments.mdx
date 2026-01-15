@@ -5,13 +5,17 @@ description: "A personal vault for quotes from books, tweets, articles, and anyt
 icon: "archive"
 version: "1.0.0"
 lastUpdated: 2025-01-14
-features:
-  - "Save fragments from any source (books, tweets, articles)"
-  - "Search through your collection by content or tags"
-  - "Organize with tags and categories"
-  - "Quick retrieval when you need that perfect quote"
-installCommand: "/fragments"
 draft: false
+skills:
+  - name: "Save Fragment"
+    command: "/save-fragment"
+    description: "Save any quote, idea, or snippet to your vault with source and tags"
+  - name: "Organize Fragments"
+    command: "/organize-fragments"
+    description: "Sort inbox fragments into categories and apply tags"
+  - name: "Browse Fragments"
+    command: "/browse-fragments"
+    description: "Search and filter fragments by category, tag, or content"
 ---
 
 import { Code } from "astro-expressive-code/components";
@@ -19,13 +23,13 @@ import readmeContent from "../../../README.md?raw";
 
 ## What is Fragments?
 
-Fragments is a Claude Code skill that helps you build and search your personal knowledge vault. Every time you read something worth remembering—a quote from a book, an insightful tweet, a paragraph from an article—you can save it with `/fragments`.
+Fragments is a Claude Code vault that helps you build and search your personal knowledge collection. Every time you read something worth remembering—a quote from a book, an insightful tweet, a paragraph from an article—you can save it with this set of skills.
 
 Think of it as your personal `knowledge.md` file, but searchable and organized. Use it to capture insights, track `const ideas = []` as they come, or store that perfect quote you'll need later.
 
 ## How to Use
 
-You can interact with Fragments using simple commands. All commands start with `/fragments` followed by an action.
+You can interact with Fragments using simple commands. Each skill in this vault handles a specific part of your workflow.
 
 ### Save a new fragment
 
@@ -35,33 +39,41 @@ Use the `save` command to add a new fragment to your vault:
 /fragments save "The best time to plant a tree was 20 years ago. The second best time is now." --source "Chinese Proverb" --tags wisdom, time
 ```
 
-### Search your fragments
+### Organize your fragments
 
-Looking for that quote about trees? Use the `search` command:
+Move fragments from your inbox to their proper categories:
 
 ```bash frame="none"
-/fragments search trees
+/fragments organize
+```
+
+### Search your fragments
+
+Looking for that quote about trees? Use the `browse` command:
+
+```bash frame="none"
+/fragments browse trees
 ```
 
 ### Browse by tag
 
-Filter fragments by tag using the `tag` command:
+Filter fragments by tag:
 
 ```bash frame="none"
-/fragments tag wisdom
+/fragments browse --tag wisdom
 ```
 
 Pro tip: You can also use `--format json` to get machine-readable output.
 
 ## Installation
 
-To install this skill in Claude Code, add it to your `.claude/skills/` directory or reference it in your configuration.
+To install this vault in Claude Code, add it to your `.claude/skills/` directory or reference it in your configuration.
 
 ```bash frame="none"
 cp fragments.md ~/.claude/skills/
 ```
 
-## Example: CLAUDE.md file
+## Example: README.md file
 
 Here's an example of a project documentation file imported dynamically:
 
@@ -69,7 +81,7 @@ Here's an example of a project documentation file imported dynamically:
 
 ## Configuration
 
-The skill stores fragments in a local markdown file. You can configure the storage location:
+The vault stores fragments in a local markdown file. You can configure the storage location:
 
 ```yaml
 fragments:

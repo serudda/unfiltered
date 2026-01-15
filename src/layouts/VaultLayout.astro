@@ -6,7 +6,7 @@ import Tag from '@/components/ui/Tag.astro';
 import { formatRelativeTime } from '@/utils/dates';
 
 interface Props {
-  frontmatter: CollectionEntry<'skills'>['data'];
+  frontmatter: CollectionEntry<'vaults'>['data'];
   canonical: string;
 }
 
@@ -23,6 +23,7 @@ const formattedDate = `${capitalizedMonth} ${day}, ${year}`;
 const relativeTime = formatRelativeTime(frontmatter.lastUpdated);
 ---
 
+
 <BaseLayout
   title={frontmatter.name}
   description={frontmatter.tagline}
@@ -33,13 +34,15 @@ const relativeTime = formatRelativeTime(frontmatter.lastUpdated);
 
   <main class="py-20">
     <article>
-      <!-- Skill Header -->
+      <!-- Vault Header -->
       <header>
         <div class="flex items-center gap-3 mb-4">
           <Tag color="purple" size="xs">
-            {frontmatter.installCommand}
+            vault
           </Tag>
           <span class="text-xs text-muted-foreground">v{frontmatter.version}</span>
+          <span class="text-xs text-muted-foreground">•</span>
+          <span class="text-xs text-muted-foreground">{frontmatter.skills.length} skills</span>
         </div>
 
         <h1 class="mb-2 text-2xl font-bold">{frontmatter.name}</h1>
@@ -53,21 +56,29 @@ const relativeTime = formatRelativeTime(frontmatter.lastUpdated);
         </div>
       </header>
 
-      <!-- Features -->
-      {frontmatter.features.length > 0 && (
-        <section class="mt-10">
-          <h2 class="text-lg font-semibold mb-4">Features</h2>
-          <ul class="ml-6 list-disc ps-4 marker:text-primary-400 space-y-2">
-            {frontmatter.features.map((feature) => (
-              <li class="text-foreground">{feature}</li>
-            ))}
-          </ul>
-        </section>
-      )}
+      <!-- Skills in this vault -->
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold mb-4">Skills in this vault</h2>
+        <div class="border border-border rounded-lg overflow-hidden">
+          {frontmatter.skills.map((skill, index) => (
+            <div class={`px-4 py-4 ${index > 0 ? 'border-t border-border' : ''}`}>
+              <div class="flex items-start gap-3">
+                <Tag color="purple" size="xs">
+                  {skill.command}
+                </Tag>
+                <div class="min-w-0">
+                  <p class="font-medium text-foreground">{skill.name}</p>
+                  <p class="text-sm text-muted-foreground mt-1">{skill.description}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
 
       <hr class="border-dashed-x my-10" />
 
-      <!-- Skill Content -->
+      <!-- Vault Content -->
       <div class="font-serif text-xl text-foreground">
         <slot />
       </div>

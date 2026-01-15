@@ -1,0 +1,25 @@
+---
+import { getCollection } from 'astro:content';
+import VaultLayout from '@/layouts/VaultLayout.astro';
+import { generateCanonicalUrl } from '@/utils/seo';
+
+export async function getStaticPaths() {
+  const vaults = await getCollection('vaults', ({ data }) => {
+    return import.meta.env.PROD ? !data.draft : true;
+  });
+
+  return vaults.map((vault) => ({
+    params: { slug: vault.slug },
+    props: { vault },
+  }));
+}
+
+const { vault } = Astro.props;
+const { Content } = await vault.render();
+
+const canonical = generateCanonicalUrl(`/skills/vaults/${vault.slug}/`);
+---
+
+<VaultLayout frontmatter={vault.data} canonical={canonical}>
+  <Content />
+</VaultLayout>
