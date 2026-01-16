@@ -4,10 +4,12 @@
 	"version": "0.0.1",
 	"scripts": {
 		"dev": "astro dev",
+		"prebuild": "node scripts/generate-vault-zips.mjs",
 		"build": "astro build",
 		"preview": "astro preview",
 		"astro": "astro",
-		"sync:external": "git submodule update --remote --merge"
+		"sync:external": "git submodule update --remote --merge",
+		"generate:zips": "node scripts/generate-vault-zips.mjs"
 	},
 	"dependencies": {
 		"@astrojs/mdx": "^4.3.13",

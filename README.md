@@ -197,6 +197,29 @@ import skillCode from "../../external/fragments-vault/.claude/skills/save-fragme
 
 Netlify is configured to automatically initialize submodules on each build (see `netlify.toml`).
 
+### 📦 Vault Downloads (ZIP Generation)
+
+Vaults with a `submodule` field in their frontmatter automatically get a **Download button**.
+
+During build, the `prebuild` script generates ZIP files:
+
+```bash
+npm run generate:zips   # Manual generation
+npm run build           # Auto-runs prebuild → generate:zips
+```
+
+To enable downloads for a vault:
+
+```yaml
+# In src/content/vaults/my-vault.mdx
+---
+name: "My Vault"
+submodule: "my-submodule-folder" # ← folder name in src/external/
+---
+```
+
+The ZIP includes the entire submodule contents except `.git` and `LICENSE.md`.
+
 ### 🔧 Troubleshooting
 
 **Submodule is empty after cloning:**
@@ -210,6 +233,11 @@ git submodule update --init --recursive
 1. Did you push in the external repo?
 2. Did you run `npm run sync:external`?
 3. Did you commit the submodule change in this repo?
+
+**Download button not appearing:**
+
+1. Ensure `submodule` field is set in vault frontmatter
+2. Run `npm run generate:zips` to create the ZIP file
 
 ---
 

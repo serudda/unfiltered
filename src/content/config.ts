@@ -41,6 +41,8 @@ const vaultSchema = z.object({
 	lastUpdated: z.coerce.date(),
 	// Draft flag for hiding vaults in production
 	draft: z.boolean().default(false),
+	// Submodule folder name in src/external/ (enables ZIP download)
+	submodule: z.string().optional(),
 });
 
 // Collections
