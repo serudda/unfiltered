@@ -4,74 +4,51 @@ tagline: "Sort inbox fragments into categories and apply tags"
 description: "Review your inbox and organize fragments into proper categories with consistent tagging."
 version: "1.0.0"
 lastUpdated: 2025-01-15
-features:
-  - "Review fragments in your inbox"
-  - "Move fragments to appropriate categories"
-  - "Suggest and apply consistent tags"
-  - "Merge duplicate or similar fragments"
+flow:
+  - "Review fragments in your inbox one by one."
+  - "Move fragments to appropriate categories (files)."
 command: "/organize-fragments"
 vault: "fragments"
 order: 2
 ---
 
 import { Code } from "astro-expressive-code/components";
+import skillCode from "../../external/fragments-vault/.claude/skills/organize-fragments/SKILL.md?raw";
+import InstallationCard from "@/components/skills/InstallationCard.astro";
 
-## What is Organize Fragments?
-
-Organize Fragments helps you maintain a clean and useful knowledge vault. It reviews fragments in your inbox and helps you categorize them properly, apply consistent tags, and identify duplicates.
-
-## How to Use
-
-Run the organize command to start an interactive organization session:
+## Usage
 
 ```bash frame="none"
 /organize-fragments
 ```
 
-### Options
-
-| Option              | Description                                  |
-| ------------------- | -------------------------------------------- |
-| `--inbox-only`      | Only process fragments in the inbox category |
-| `--suggest-tags`    | Get AI-suggested tags for untagged fragments |
-| `--find-duplicates` | Identify and merge similar fragments         |
-| `--dry-run`         | Preview changes without applying them        |
-
-### Examples
-
-**Organize your inbox:**
+In natural language:
 
 ```bash frame="none"
-/organize-fragments --inbox-only
+Organize my fragments
 ```
 
-**Get tag suggestions for all fragments:**
+The Agent will scan your `inbox.md` and suggest a category for each fragment based on its content and your existing vault structure.
 
 ```bash frame="none"
-/organize-fragments --suggest-tags
+I suggest: **building.md** (because of #build-in-public)
+
+1. ✓ Move to building.md
+2. → Another category
+3. ⏭ Skip
+4. ✕ Delete
 ```
 
-**Find and merge duplicates:**
+## Output
 
-```bash frame="none"
-/organize-fragments --find-duplicates
-```
+1. The fragment is appended to the destination file.
+2. It's removed from `inbox.md`.
+3. The Agent logs the action and moves to the next item.
 
-## Interactive Mode
+---
 
-When you run `/organize-fragments`, you'll enter an interactive session:
+## Installation
 
-1. **Review**: Each inbox fragment is shown one by one
-2. **Categorize**: Choose or create a category for the fragment
-3. **Tag**: Add tags or accept AI suggestions
-4. **Confirm**: Apply changes or skip to the next fragment
+Copy the following instructions into your `.claude/skills/organize-fragments/SKILL.md` file:
 
-## Categories
-
-Default categories include:
-
-- `quotes` - Memorable quotes and sayings
-- `ideas` - Your own ideas and thoughts
-- `references` - Technical references and documentation
-- `code` - Code snippets and patterns
-- `reading` - Notes from books and articles
+<Code code={skillCode} lang="markdown" />

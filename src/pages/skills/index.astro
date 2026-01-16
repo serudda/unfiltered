@@ -7,10 +7,10 @@ import SkillList from '@/components/skills/SkillList.astro';
 import { generateCanonicalUrl } from '@/utils/seo';
 import { DynamicIcon } from '@/components/ui/DynamicIcon';
 
-// Get all vaults (filter drafts in production)
+// Get all vaults (sorted by date)
 const vaults = (await getCollection('vaults')).sort((a, b) => b.data.lastUpdated.getTime() - a.data.lastUpdated.getTime());
 
-// Get all skills (filter drafts in production)
+// Get all skills (sorted by order)
 const allSkills = (await getCollection('skills')).sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
 
 // Group skills by vault
