@@ -1,0 +1,90 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from './Layout.astro';
+import Header from '@/components/site/Header.astro';
+import { DynamicIcon } from '@/components/ui/DynamicIcon';
+import Button from '@/components/ui/Button.astro';
+import { DownloadIcon } from 'lucide-react';
+import SkillList from '@/components/skills/SkillList.astro';
+
+interface Props {
+  frontmatter: CollectionEntry<'vaults'>['data'];
+  canonical: string;
+  skills: CollectionEntry<'skills'>[];
+}
+
+const { frontmatter, canonical, skills } = Astro.props;
+
+// Build download URL from vault slug
+const vaultSlug = Astro.url.pathname.split('/').filter(Boolean).pop();
+const downloadUrl = `/downloads/${vaultSlug}-vault.zip`;
+---
+
+
+<BaseLayout
+  title={frontmatter.name}
+  description={frontmatter.description}
+  canonical={canonical}
+  lang="en"
+>
+  <Header />
+
+  <main class="py-20">
+    <article>
+      <!-- Vault Breadcrumb -->
+      <nav class="mb-6 flex items-center justify-between">
+        <a
+          href="/skills/"
+          class="text-sm text-muted-foreground hover:text-primary-300 transition-colors"
+        >
+          ← Back to all skills
+        </a>
+        {frontmatter.submodule && (
+            <Button href={downloadUrl} download variant="secondary" size='sm'>
+              <DownloadIcon />
+              Download Skills
+            </Button>
+          )}
+      </nav>
+      
+
+      <!-- Vault Header -->
+      <header>        
+        <div class="flex items-start justify-between gap-4">
+          <div class="flex-1">
+            <h1 class="mb-3 text-3xl font-bold flex items-center gap-3">
+              <DynamicIcon name={frontmatter.icon} className="text-purple-600 size-5" client:load />
+              {frontmatter.name}
+            </h1>
+            <p class="text-lg text-muted-foreground">{frontmatter.description}</p>
+          </div>
+        </div>
+      </header>
+
+      <!-- Skills in this vault (dynamically fetched) -->
+      {skills.length > 0 && (
+        <section class="mt-10">
+          <h2 class="text-xl font-semibold mb-2 ml-1">Skills in this vault</h2>
+          <SkillList class='border border-border rounded-lg' skills={skills} />
+        </section>
+      )}
+
+      <hr class="border-dashed-x my-10" />
+
+      <!-- Vault Content -->
+      <div class="text-xl text-foreground">
+        <slot />
+      </div>
+
+      <!-- Back to Skills -->
+      <div class="mt-16 pt-8 border-t border-border">
+        <a
+          href="/skills/"
+          class="text-sm text-muted-foreground hover:text-primary-300 transition-colors"
+        >
+          ← Back to all skills
+        </a>
+      </div>
+    </article>
+  </main>
+</BaseLayout>

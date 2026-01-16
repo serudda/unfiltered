@@ -1,0 +1,25 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { tv } from 'tailwind-variants';
+import SkillListItem from './SkillListItem.astro';
+
+interface Props {
+  skills: CollectionEntry<'skills'>[];
+  class?: string;
+}
+
+const { skills, class: className } = Astro.props;
+
+// Define las variantes del componente
+const skillListVariants = tv({
+  base: 'overflow-hidden grid grid-cols-[auto_1fr] gap-x-6',
+});
+---
+
+{skills.length > 0 && (
+  <div class={skillListVariants({ class: className })}>
+    {skills.map((skill, index) => (
+      <SkillListItem skill={skill} showBorder={index > 0} />
+    ))}
+  </div>
+)}

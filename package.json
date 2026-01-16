@@ -4,15 +4,19 @@
 	"version": "0.0.1",
 	"scripts": {
 		"dev": "astro dev",
+		"prebuild": "node scripts/generate-vault-zips.mjs",
 		"build": "astro build",
 		"preview": "astro preview",
-		"astro": "astro"
+		"astro": "astro",
+		"sync:external": "git submodule update --remote --merge",
+		"generate:zips": "node scripts/generate-vault-zips.mjs"
 	},
 	"dependencies": {
 		"@astrojs/mdx": "^4.3.13",
 		"@astrojs/react": "^4.4.2",
 		"@tailwindcss/vite": "^4.1.18",
 		"astro": "^5.16.6",
+		"astro-expressive-code": "^0.41.5",
 		"lucide-react": "^0.562.0",
 		"react": "^19.2.3",
 		"react-dom": "^19.2.3",

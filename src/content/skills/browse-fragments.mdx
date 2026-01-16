@@ -1,0 +1,100 @@
+---
+name: "Browse Fragments"
+tagline: "Search and filter fragments by category, tag, or content"
+description: "Quickly find any fragment in your vault using powerful search and filtering capabilities."
+version: "1.0.0"
+lastUpdated: 2025-01-15
+features:
+  - "Full-text search across all fragments"
+  - "Filter by tags and categories"
+  - "Sort by date, relevance, or source"
+  - "Export results in multiple formats"
+command: "/browse-fragments"
+vault: "fragments"
+order: 3
+---
+
+import { Code } from "astro-expressive-code/components";
+
+## What is Browse Fragments?
+
+Browse Fragments is your search interface into your knowledge vault. Find that perfect quote, retrieve a code snippet, or explore fragments by tag—all with a simple command.
+
+## How to Use
+
+Search for fragments using keywords:
+
+```bash frame="none"
+/browse-fragments trees
+```
+
+### Search Options
+
+| Option       | Description                                 |
+| ------------ | ------------------------------------------- |
+| `--tag`      | Filter by specific tag                      |
+| `--category` | Filter by category                          |
+| `--source`   | Filter by source                            |
+| `--limit`    | Maximum results to return (default: 10)     |
+| `--format`   | Output format: `pretty`, `json`, `markdown` |
+
+### Examples
+
+**Search by keyword:**
+
+```bash frame="none"
+/browse-fragments productivity
+```
+
+**Filter by tag:**
+
+```bash frame="none"
+/browse-fragments --tag wisdom
+```
+
+**Combine filters:**
+
+```bash frame="none"
+/browse-fragments habits --tag philosophy --category quotes
+```
+
+**Export as JSON:**
+
+```bash frame="none"
+/browse-fragments --tag javascript --format json
+```
+
+## Output Formats
+
+### Pretty (default)
+
+```
+📝 Fragment #42
+"We are what we repeatedly do..."
+└─ Source: Aristotle | Tags: #philosophy #habits
+```
+
+### Markdown
+
+```markdown
+> We are what we repeatedly do...
+
+— Aristotle (#philosophy #habits)
+```
+
+### JSON
+
+```json
+{
+	"id": 42,
+	"content": "We are what we repeatedly do...",
+	"source": "Aristotle",
+	"tags": ["philosophy", "habits"]
+}
+```
+
+## Pro Tips
+
+- Use quotes for exact phrase matching: `/browse-fragments "plant a tree"`
+- Combine with other skills: search first, then use the fragment ID with other commands
+- Export to JSON for use in scripts or other tools

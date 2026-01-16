@@ -1,5 +1,4 @@
 import type React from "react";
-import { QuoteIcon } from "lucide-react";
 import Figure from "@/components/mdx/Figure.astro";
 import Video from "@/components/mdx/Video.astro";
 import SmartLink from "@/components/mdx/SmartLink.astro";
@@ -7,41 +6,46 @@ import Callout from "@/components/mdx/Callout.astro";
 import Divider from "@/components/mdx/Divider.astro";
 import Quote from "@/components/mdx/Quote.astro";
 import Audio from "@/components/mdx/Audio.astro";
-
-// Optional: React islands (only hydrate when needed)
-// import CodeTabs from '@/components/islands/CodeTabs';
+import InstallationCard from "@/components/skills/InstallationCard.astro";
 
 /**
- * MDX Component Registry
- * This is the single source of truth for all MDX components used in posts
+ * MDX Component Registry for Skills & Vaults
+ * Typography optimized for technical documentation with sans-serif fonts and smaller text
  */
-export const mdxComponents = {
+export const skillsComponents = {
 	/*******************************************
 	 * Native HTML tags
 	 ******************************************/
 	img: Figure,
 	a: SmartLink,
 	p: (props: React.HTMLAttributes<HTMLParagraphElement>) => (
-		<p className="leading-relaxed mb-8" {...props} />
+		<p className="my-5 text-foreground text-lg" {...props} />
 	),
 
 	h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-		<h1
-			className="text-[2.75rem] font-bold leading-tight mt-0 mb-6"
-			{...props}
-		/>
+		<h1 className="mt-15 mb-4 text-4xl font-bold text-balance" {...props} />
 	),
 
 	h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
 		<h2
-			className="text-[2rem] font-semibold leading-snug mt-12 mb-4"
+			className="mt-11 mb-4 scroll-mt-18 text-foreground hover:text-foreground/90 text-3xl font-bold text-balance"
+			id={props.id}
 			{...props}
 		/>
 	),
 
 	h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
 		<h3
-			className="text-[2rem] font-semibold leading-snug mt-10 mb-3"
+			className="mt-9 mb-4 scroll-m-28 text-2xl text-foreground hover:text-foreground/90 font-bold [&+p]:!mt-4 *:[code]:text-xl"
+			id={props.id}
+			{...props}
+		/>
+	),
+
+	h4: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
+		<h4
+			className="mt-6 mb-4 scroll-m-28 text-xl text-foreground hover:text-foreground/90 font-bold [&+p]:!mt-4 *:[code]:text-xl"
+			id={props.id}
 			{...props}
 		/>
 	),
@@ -50,23 +54,20 @@ export const mdxComponents = {
 		<strong className="font-semibold text-foreground" {...props} />
 	),
 
-	code: (props: React.HTMLAttributes<HTMLElement>) => (
-		<code
-			className="rounded bg-slate-800 px-1 py-0.5 text-sm font-mono text-primary-300"
-			{...props}
-		/>
+	em: (props: React.HTMLAttributes<HTMLElement>) => (
+		<em className="text-muted-foreground not-italic" {...props} />
 	),
 
 	ul: (props: React.HTMLAttributes<HTMLUListElement>) => (
 		<ul
-			className="my-6 ml-6 list-disc ps-4 marker:text-primary-600 text-xl"
+			className="my-7 ml-5 list-disc ps-4 marker:text-primary-600 text-lg"
 			{...props}
 		/>
 	),
 
 	ol: (props: React.HTMLAttributes<HTMLOListElement>) => (
 		<ol
-			className="list-decimal list-outside pl-6 mb-8 space-y-2 text-foreground font-serif text-xl leading-relaxed"
+			className="list-decimal list-outside pl-5 mb-8 space-y-2 text-foreground text-lg leading-relaxed"
 			{...props}
 		/>
 	),
@@ -76,7 +77,7 @@ export const mdxComponents = {
 	),
 
 	hr: (props: React.HTMLAttributes<HTMLHRElement>) => (
-		<hr className="border-0 h-px bg-border my-12 mx-auto w-16" {...props} />
+		<hr className="border-dashed-x my-10" {...props} />
 	),
 
 	blockquote: Quote,
@@ -88,9 +89,5 @@ export const mdxComponents = {
 	Callout,
 	Divider,
 	Audio,
-
-	/*******************************************
-	 * Islands (uncomment when needed)
-	 ******************************************/
-	// CodeTabs,
+	InstallationCard,
 };

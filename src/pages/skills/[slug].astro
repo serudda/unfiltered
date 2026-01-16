@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import SkillLayout from '@/layouts/SkillLayout.astro';
+import { skillsComponents } from '@/mdx/skills-components';
+import { generateCanonicalUrl } from '@/utils/seo';
+
+export const getStaticPaths = (async () => {
+  const skills = await getCollection('skills');
+
+  // Get all vaults to pass vault info to skills that belong to one
+  const vaults = await getCollection('vaults');
+
+  const vaultMap = new Map(vaults.map((v) => [v.slug, v]));
+
+  return skills.map((skill) => ({
+    params: { slug: skill.slug },
+    props: { 
+      skill,
+      vault: skill.data.vault ? vaultMap.get(skill.data.vault) : undefined,
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+const { skill, vault } = Astro.props;
+const { Content } = await skill.render();
+
+const canonical = generateCanonicalUrl(`/skills/${skill.slug}/`);
+---
+
+<SkillLayout
+  frontmatter={skill.data}
+  canonical={canonical}
+  vault={vault}
+>
+  <Content components={skillsComponents} />
+</SkillLayout>

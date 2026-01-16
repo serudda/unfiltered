@@ -1,0 +1,77 @@
+---
+name: "Organize Fragments"
+tagline: "Sort inbox fragments into categories and apply tags"
+description: "Review your inbox and organize fragments into proper categories with consistent tagging."
+version: "1.0.0"
+lastUpdated: 2025-01-15
+features:
+  - "Review fragments in your inbox"
+  - "Move fragments to appropriate categories"
+  - "Suggest and apply consistent tags"
+  - "Merge duplicate or similar fragments"
+command: "/organize-fragments"
+vault: "fragments"
+order: 2
+---
+
+import { Code } from "astro-expressive-code/components";
+
+## What is Organize Fragments?
+
+Organize Fragments helps you maintain a clean and useful knowledge vault. It reviews fragments in your inbox and helps you categorize them properly, apply consistent tags, and identify duplicates.
+
+## How to Use
+
+Run the organize command to start an interactive organization session:
+
+```bash frame="none"
+/organize-fragments
+```
+
+### Options
+
+| Option              | Description                                  |
+| ------------------- | -------------------------------------------- |
+| `--inbox-only`      | Only process fragments in the inbox category |
+| `--suggest-tags`    | Get AI-suggested tags for untagged fragments |
+| `--find-duplicates` | Identify and merge similar fragments         |
+| `--dry-run`         | Preview changes without applying them        |
+
+### Examples
+
+**Organize your inbox:**
+
+```bash frame="none"
+/organize-fragments --inbox-only
+```
+
+**Get tag suggestions for all fragments:**
+
+```bash frame="none"
+/organize-fragments --suggest-tags
+```
+
+**Find and merge duplicates:**
+
+```bash frame="none"
+/organize-fragments --find-duplicates
+```
+
+## Interactive Mode
+
+When you run `/organize-fragments`, you'll enter an interactive session:
+
+1. **Review**: Each inbox fragment is shown one by one
+2. **Categorize**: Choose or create a category for the fragment
+3. **Tag**: Add tags or accept AI suggestions
+4. **Confirm**: Apply changes or skip to the next fragment
+
+## Categories
+
+Default categories include:
+
+- `quotes` - Memorable quotes and sayings
+- `ideas` - Your own ideas and thoughts
+- `references` - Technical references and documentation
+- `code` - Code snippets and patterns
+- `reading` - Notes from books and articles

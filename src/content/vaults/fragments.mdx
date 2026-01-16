@@ -1,0 +1,91 @@
+---
+name: "Fragments"
+tagline: "Save and organize small pieces of knowledge: text fragments, quotes, snippets, etc."
+description: "A vault to capture text fragments and turn them into a living system: save them to an Inbox, organize them by category, then browse them to find connections and generate insights."
+icon: "Feather"
+version: "1.0.0"
+lastUpdated: 2025-01-15
+draft: false
+submodule: "fragments-vault"
+---
+
+import { Code } from "astro-expressive-code/components";
+
+## Folder Structure
+
+```text frame="none"
+.claude/skills/
+├── save-fragment/
+│ └── SKILL.md (main instructions)
+├── organize-fragments/
+│ └── SKILL.md (main instructions)
+fragments/
+├── inbox.md # Where everything arrives (unprocessed)
+├── career.md # (example category)
+├── building.md # (example category)
+└── life.md # (example category)
+```
+
+## Usage
+
+### 1. Save a Fragment
+
+To save a text fragment, quote, snippet, etc., invoke the `save-fragment` skill:
+
+```bash frame="none"
+/save-fragment "The best time to plant a tree was 20 years ago. The second best time is now."
+```
+
+In natural language:
+
+```bash frame="none"
+Save this fragment: "The best time to plant a tree was 20 years ago. The second best time is now."
+```
+
+The Agent will ask you for:
+
+- `Author`: Who said/who wrote it?
+- `Source`: Where does it come from? _(author, book, tweet, article)_
+- `Tags`: It will show you existing tags and suggest some
+- `Why`: Why did it catch your attention? _(Important when Agent is searching fragments to connect knowledge points)_
+
+Everything goes to `inbox.md` first. You can then organize it later.
+
+### 2. Organize your fragments
+
+To organize your fragments, invoke the `organize-fragments` skill:
+
+```bash frame="none"
+/organize-fragments
+```
+
+In natural language:
+
+```bash frame="none"
+Organize my fragments
+```
+
+The Agent will suggest a category for each fragment.
+
+```bash frame="none"
+I suggest: **building.md** (because of #build-in-public)
+
+1. ✓ Move to building.md
+2. → Another category
+3. ⏭ Skip
+4. ✕ Delete
+```
+
+When you respond, the Agent appends the fragment to the destination file _(category)_, removes it from `inbox.md`, and confirms the action.
+
+## Installation
+
+<InstallationCard vaultSlug="fragments" />
+
+---
+
+## Why Use Fragments?
+
+- **Never lose a good idea again** – Capture thoughts instantly while reading, studying, coding, etc.
+- **Build your second brain** – Create a searchable knowledge base over time.
+- **Stay in flow** – No interrupting your flow to save a text fragment.

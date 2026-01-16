@@ -1,0 +1,136 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/Layout.astro';
+import Header from '@/components/site/Header.astro';
+import Tag from '@/components/ui/Tag.astro';
+import SkillList from '@/components/skills/SkillList.astro';
+import { generateCanonicalUrl } from '@/utils/seo';
+import { DynamicIcon } from '@/components/ui/DynamicIcon';
+
+// Get all vaults (filter drafts in production)
+const vaults = (await getCollection('vaults')).sort((a, b) => b.data.lastUpdated.getTime() - a.data.lastUpdated.getTime());
+
+// Get all skills (filter drafts in production)
+const allSkills = (await getCollection('skills')).sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
+
+// Group skills by vault
+const skillsByVault = new Map<string, typeof allSkills>();
+const independentSkills: typeof allSkills = [];
+
+allSkills.forEach((skill) => {
+  if (skill.data.vault) {
+    const vaultSkills = skillsByVault.get(skill.data.vault) || [];
+    vaultSkills.push(skill);
+    skillsByVault.set(skill.data.vault, vaultSkills);
+  } else {
+    independentSkills.push(skill);
+  }
+});
+
+const canonical = generateCanonicalUrl('/skills/');
+
+---
+
+<BaseLayout
+  title="Skills"
+  description="Custom Claude Skills and Vaults I've created. Each skill is a custom command you can use in your own workflow."
+  canonical={canonical}
+  lang="en"
+>
+  <Header />
+
+  <main class="py-20">
+    <header class="mb-10">
+      <h1 class="mb-2 text-3xl font-semibold">My Agent Skills</h1>
+      <p class="text-foreground text-lg tracking-wide leading-relaxed">
+        Custom <a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview?utm_source=serudda.com" target="_blank" class="text-foreground hover:text-primary-300 transition-colors border-b border-primary-300/50 hover:border-primary-300">Claude Skills</a> and <a href="https://help.obsidian.md/vault?utm_source=serudda.com" target="_blank" class="text-foreground hover:text-primary-300 transition-colors border-b border-primary-300/50 hover:border-primary-300">Vaults</a> designed for personal automation. 
+      </p>
+    </header>
+
+    <hr class="my-12 border-dashed-x" />
+
+    <!-- Vaults Section -->
+    {vaults.length > 0 && (
+      <section class="mb-12">
+        <h2 class="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4 ml-1">My Personal Vaults</h2>
+        <div class="space-y-6">
+          {vaults.map((vault) => {
+            const vaultSkills = skillsByVault.get(vault.slug) || [];
+            return (
+              <div class="border border-border hover:border-purple-900/50 transition-colors rounded-lg overflow-hidden">
+                {/* Vault Header */}
+                <a
+                  href={`/skills/vaults/${vault.slug}/`}
+                  class="block p-4 border-b border-border hover:bg-purple-900/10 transition-colors"
+                >
+                  <div class="flex items-start justify-between gap-4">
+                    <div class="flex-1 min-w-0">
+                      <div class="flex items-center gap-2 mb-1 select-none">
+                        <h3 class="text-xl font-semibold text-foreground transition-colors">
+                          {vault.data.name}
+                        </h3>
+                        <span class="text-sm text-muted-foreground">
+                          {vaultSkills.length} skills
+                        </span>
+                      </div>
+                      <p class="text-base text-foreground/70">
+                        {vault.data.tagline}
+                      </p>
+                    </div>
+                    <DynamicIcon name={vault.data.icon} className="text-purple-600" client:load />
+                  </div>
+                </a>
+
+                {/* Skills within vault - clickable links to individual pages */}
+                {vaultSkills.length > 0 && (
+                  <SkillList skills={vaultSkills}/>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </section>
+    )}
+
+    <!-- Independent Skills Section -->
+    {independentSkills.length > 0 && (
+      <section>
+        <h2 class="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-6">Skills</h2>
+        <div class="space-y-4">
+          {independentSkills.map((skill) => {
+            return (
+              <a
+                href={`/skills/${skill.slug}/`}
+                class="block p-4 -mx-4 rounded-lg hover:bg-card transition-colors group"
+              >
+                <div class="flex items-start justify-between gap-4">
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-3 mb-1">
+                      <h3 class="font-semibold text-foreground group-hover:text-primary-300 transition-colors">
+                        {skill.data.name}
+                      </h3>
+                      <Tag color="purple" size="xs">
+                        {skill.data.command}
+                      </Tag>
+                    </div>
+                    <p class="text-sm text-muted-foreground line-clamp-2">
+                      {skill.data.tagline}
+                    </p>
+                  </div>
+                  <span class="text-xs text-muted-foreground shrink-0">
+                    v{skill.data.version}
+                  </span>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      </section>
+    )}
+
+    {/* Empty state */}
+    {vaults.length === 0 && allSkills.length === 0 && (
+      <p class="text-muted-foreground">No skills or vaults yet. Check back soon.</p>
+    )}
+  </main>
+</BaseLayout>

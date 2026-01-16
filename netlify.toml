@@ -1,0 +1,6 @@
+[build]
+  command = "git submodule update --init --recursive --remote --merge && npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"

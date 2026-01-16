@@ -115,4 +115,130 @@ The site is deployed to **Netlify**. Push to `main` to trigger a deploy.
 
 ---
 
+## 🔗 Git Submodules (External Content)
+
+This project uses **Git Submodules** to sync content from external repositories (like skills from other projects).
+
+### Structure
+
+```
+src/external/
+└── fragments-vault/          # Submodule: github.com/serudda/fragments-vault
+    └── .claude/skills/
+        └── save-fragment/
+            └── SKILL.md      # ← This file is imported in MDX
+```
+
+### 📥 Cloning the Project (First Time)
+
+```bash
+# Clone the repo WITH submodules
+git clone --recurse-submodules https://github.com/serudda/unfiltered.git
+
+# Or if you already cloned without submodules:
+git submodule update --init --recursive
+```
+
+### 🔄 Workflow: Update External Content
+
+When you make changes in the external repo and want them reflected here:
+
+```bash
+# 1. In the EXTERNAL repo (fragments-vault), make your changes
+cd ~/Documents/Projects/SHOWCASE/fragments-vault
+# ... edit files ...
+git add .
+git commit -m "update: improve SKILL.md"
+git push
+
+# 2. In THIS project (unfiltered), pull the changes
+cd ~/Documents/Projects/unfiltered
+npm run sync:external    # Updates submodules
+
+# 3. Commit the updated reference
+git add src/external/fragments-vault
+git commit -m "chore: sync fragments-vault submodule"
+git push
+```
+
+### 📝 Adding a New Submodule
+
+```bash
+# Add an external repo
+git submodule add https://github.com/USER/REPO.git src/external/REPO
+
+# Example
+git submodule add https://github.com/serudda/another-repo.git src/external/another-repo
+```
+
+### 🖼️ Importing Content in MDX
+
+```mdx
+import { Code } from "astro-expressive-code/components";
+import skillCode from "../../external/fragments-vault/.claude/skills/save-fragment/SKILL.md?raw";
+
+## Install This Skill
+
+<Code code={skillCode} lang="markdown" title="SKILL.md" />
+```
+
+> ⚠️ **Important**: The `?raw` suffix is required to import as plain text.
+
+### 🧞 Submodule Commands
+
+| Command                         | Description                                   |
+| :------------------------------ | :-------------------------------------------- |
+| `npm run sync:external`         | Pull latest changes from all submodules       |
+| `git submodule status`          | View submodule status                         |
+| `git submodule update --init`   | Initialize submodules after cloning           |
+| `git submodule update --remote` | Update to the latest version from remote repo |
+
+### ☁️ Netlify
+
+Netlify is configured to automatically initialize submodules on each build (see `netlify.toml`).
+
+### 📦 Vault Downloads (ZIP Generation)
+
+Vaults with a `submodule` field in their frontmatter automatically get a **Download button**.
+
+During build, the `prebuild` script generates ZIP files:
+
+```bash
+npm run generate:zips   # Manual generation
+npm run build           # Auto-runs prebuild → generate:zips
+```
+
+To enable downloads for a vault:
+
+```yaml
+# In src/content/vaults/my-vault.mdx
+---
+name: "My Vault"
+submodule: "my-submodule-folder" # ← folder name in src/external/
+---
+```
+
+The ZIP includes the entire submodule contents except `.git` and `LICENSE.md`.
+
+### 🔧 Troubleshooting
+
+**Submodule is empty after cloning:**
+
+```bash
+git submodule update --init --recursive
+```
+
+**Changes not reflecting:**
+
+1. Did you push in the external repo?
+2. Did you run `npm run sync:external`?
+3. Did you commit the submodule change in this repo?
+
+**Download button not appearing:**
+
+1. Ensure `submodule` field is set in vault frontmatter
+2. Run `npm run generate:zips` to create the ZIP file
+
+---
+
 Made with ❤️ by [@serudda](https://x.com/serudda)
