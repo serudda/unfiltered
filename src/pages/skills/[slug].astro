@@ -6,14 +6,10 @@ import { skillsComponents } from '@/mdx/skills-components';
 import { generateCanonicalUrl } from '@/utils/seo';
 
 export const getStaticPaths = (async () => {
-  const skills = await getCollection('skills', ({ data }) => {
-    return import.meta.env.PROD ? !data.draft : true;
-  });
+  const skills = await getCollection('skills');
 
   // Get all vaults to pass vault info to skills that belong to one
-  const vaults = await getCollection('vaults', ({ data }) => {
-    return import.meta.env.PROD ? !data.draft : true;
-  });
+  const vaults = await getCollection('vaults');
 
   const vaultMap = new Map(vaults.map((v) => [v.slug, v]));
 

@@ -3,7 +3,6 @@ import type { CollectionEntry } from 'astro:content';
 import BaseLayout from './Layout.astro';
 import Header from '@/components/site/Header.astro';
 import Tag from '@/components/ui/Tag.astro';
-import { formatRelativeTime } from '@/utils/dates';
 
 interface Props {
   frontmatter: CollectionEntry<'skills'>['data'];
@@ -13,15 +12,6 @@ interface Props {
 
 const { frontmatter, canonical, vault } = Astro.props;
 
-// Format date
-const dateObj = new Date(frontmatter.lastUpdated);
-const day = dateObj.getDate();
-const year = dateObj.getFullYear();
-const month = dateObj.toLocaleDateString('en-US', { month: 'long' });
-const capitalizedMonth = month.charAt(0).toUpperCase() + month.slice(1);
-
-const formattedDate = `${capitalizedMonth} ${day}, ${year}`;
-const relativeTime = formatRelativeTime(frontmatter.lastUpdated);
 ---
 
 <BaseLayout
@@ -39,46 +29,32 @@ const relativeTime = formatRelativeTime(frontmatter.lastUpdated);
         <nav class="mb-6">
           <a 
             href={`/skills/vaults/${vault.slug}/`}
-            class="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary-300 transition-colors"
+            class="text-sm text-muted-foreground hover:text-primary-300 transition-colors"
           >
-            <span>←</span>
-            <span>{vault.data.name} Vault</span>
+            ← Back to {vault.data.name} Vault
           </a>
         </nav>
       )}
 
-      <!-- Skill Header -->
-      <header>
-        <div class="flex items-center gap-3 mb-4">
+      <!-- Vault Header -->
+      <header>        
+        <h1 class="mb-3 text-3xl font-bold flex items-center gap-3">
+          {frontmatter.name}
           <Tag color="purple" size="xs">
-            {frontmatter.installCommand}
+            {frontmatter.command}
           </Tag>
-          <span class="text-xs text-muted-foreground">v{frontmatter.version}</span>
-          {vault && (
-            <>
-              <span class="text-xs text-muted-foreground">•</span>
-              <span class="text-xs text-muted-foreground">Part of {vault.data.name}</span>
-            </>
-          )}
-        </div>
-
-        <h1 class="mb-2 text-2xl font-bold">{frontmatter.name}</h1>
-        <p class="text-xl text-muted-foreground font-serif">{frontmatter.tagline}</p>
-
-        <div class="flex items-center gap-2 mt-4 text-sm text-muted-foreground">
-          <span>Last updated:</span>
-          <time datetime={frontmatter.lastUpdated.toISOString()}>
-            {formattedDate} ({relativeTime})
-          </time>
-        </div>
+        </h1>
+        <p class="text-lg text-muted-foreground">{frontmatter.description}</p>
       </header>
 
+      <hr class="border-dashed-x my-10" />
+
       <!-- Features -->
-      {frontmatter.features.length > 0 && (
+      {frontmatter.flow.length > 0 && (
         <section class="mt-10">
-          <h2 class="text-lg font-semibold mb-4">Features</h2>
+          <h2 class="text-2xl font-semibold mb-4">Flow</h2>
           <ul class="ml-6 list-disc ps-4 marker:text-primary-400 space-y-2">
-            {frontmatter.features.map((feature) => (
+            {frontmatter.flow.map((feature) => (
               <li class="text-foreground">{feature}</li>
             ))}
           </ul>
@@ -88,25 +64,23 @@ const relativeTime = formatRelativeTime(frontmatter.lastUpdated);
       <hr class="border-dashed-x my-10" />
 
       <!-- Skill Content -->
-      <div class="font-serif text-xl text-foreground">
-        <slot />
-      </div>
+      <slot />
 
       <!-- Back Navigation -->
       <div class="mt-16 pt-8 border-t border-border">
         {vault ? (
-          <a
+          <a 
             href={`/skills/vaults/${vault.slug}/`}
             class="text-sm text-muted-foreground hover:text-primary-300 transition-colors"
           >
-            ← Back to {vault.data.name} vault
+            ← Back to {vault.data.name} Vault
           </a>
         ) : (
-          <a
-            href="/skills/"
+          <a 
+            href={'/skills/'}
             class="text-sm text-muted-foreground hover:text-primary-300 transition-colors"
           >
-            ← Back to all skills
+            ← Back to Skills
           </a>
         )}
       </div>

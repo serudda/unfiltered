@@ -20,9 +20,8 @@ const skillSchema = z.object({
 	description: z.string().optional(),
 	version: z.string().default("1.0.0"),
 	lastUpdated: z.coerce.date(),
-	features: z.array(z.string()).default([]),
-	installCommand: z.string(),
-	draft: z.boolean().default(false),
+	flow: z.array(z.string()).default([]),
+	command: z.string(),
 	// Optional vault reference - slug of parent vault (e.g., "fragments")
 	vault: z.string().optional(),
 });
@@ -36,7 +35,6 @@ const vaultSchema = z.object({
 	icon: z.string().default("Archive"),
 	version: z.string().default("1.0.0"),
 	lastUpdated: z.coerce.date(),
-	draft: z.boolean().default(false),
 });
 
 // Collections

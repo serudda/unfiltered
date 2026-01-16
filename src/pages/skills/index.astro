@@ -8,14 +8,10 @@ import { generateCanonicalUrl } from '@/utils/seo';
 import { DynamicIcon } from '@/components/ui/DynamicIcon';
 
 // Get all vaults (filter drafts in production)
-const vaults = (await getCollection('vaults', ({ data }) => {
-  return import.meta.env.PROD ? !data.draft : true;
-})).sort((a, b) => b.data.lastUpdated.getTime() - a.data.lastUpdated.getTime());
+const vaults = (await getCollection('vaults')).sort((a, b) => b.data.lastUpdated.getTime() - a.data.lastUpdated.getTime());
 
 // Get all skills (filter drafts in production)
-const allSkills = (await getCollection('skills', ({ data }) => {
-  return import.meta.env.PROD ? !data.draft : true;
-})).sort((a, b) => b.data.lastUpdated.getTime() - a.data.lastUpdated.getTime());
+const allSkills = (await getCollection('skills')).sort((a, b) => b.data.lastUpdated.getTime() - a.data.lastUpdated.getTime());
 
 // Group skills by vault
 const skillsByVault = new Map<string, typeof allSkills>();
@@ -114,7 +110,7 @@ const canonical = generateCanonicalUrl('/skills/');
                         {skill.data.name}
                       </h3>
                       <Tag color="purple" size="xs">
-                        {skill.data.installCommand}
+                        {skill.data.command}
                       </Tag>
                     </div>
                     <p class="text-sm text-muted-foreground line-clamp-2">
