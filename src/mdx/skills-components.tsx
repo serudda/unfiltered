@@ -6,6 +6,7 @@ import Callout from "@/components/mdx/Callout.astro";
 import Divider from "@/components/mdx/Divider.astro";
 import Quote from "@/components/mdx/Quote.astro";
 import Audio from "@/components/mdx/Audio.astro";
+import InstallationCard from "@/components/skills/InstallationCard.astro";
 
 /**
  * MDX Component Registry for Skills & Vaults
@@ -88,4 +89,5 @@ export const skillsComponents = {
 	Callout,
 	Divider,
 	Audio,
+	InstallationCard,
 };
