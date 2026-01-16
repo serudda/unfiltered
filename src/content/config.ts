@@ -24,6 +24,10 @@ const skillSchema = z.object({
 	command: z.string(),
 	// Optional vault reference - slug of parent vault (e.g., "fragments")
 	vault: z.string().optional(),
+	// Optional order for sorting skills within a vault (lower = first)
+	order: z.number().optional(),
+	// Draft flag for hiding skills in production
+	draft: z.boolean().default(false),
 });
 
 // Schema for vaults (containers grouping related skills)
@@ -35,6 +39,8 @@ const vaultSchema = z.object({
 	icon: z.string().default("Archive"),
 	version: z.string().default("1.0.0"),
 	lastUpdated: z.coerce.date(),
+	// Draft flag for hiding vaults in production
+	draft: z.boolean().default(false),
 });
 
 // Collections

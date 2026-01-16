@@ -11,7 +11,7 @@ import { DynamicIcon } from '@/components/ui/DynamicIcon';
 const vaults = (await getCollection('vaults')).sort((a, b) => b.data.lastUpdated.getTime() - a.data.lastUpdated.getTime());
 
 // Get all skills (filter drafts in production)
-const allSkills = (await getCollection('skills')).sort((a, b) => b.data.lastUpdated.getTime() - a.data.lastUpdated.getTime());
+const allSkills = (await getCollection('skills')).sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
 
 // Group skills by vault
 const skillsByVault = new Map<string, typeof allSkills>();

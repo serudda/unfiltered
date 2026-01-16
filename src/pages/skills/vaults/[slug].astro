@@ -20,7 +20,7 @@ export async function getStaticPaths() {
       vault,
       skills: allSkills
         .filter((skill) => skill.data.vault === vault.slug)
-        .sort((a, b) => a.data.name.localeCompare(b.data.name)),
+        .sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999)),
     },
   }));
 }
