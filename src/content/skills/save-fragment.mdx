@@ -15,6 +15,7 @@ vault: "fragments"
 ---
 
 import { Code } from "astro-expressive-code/components";
+import skillCode from "../../external/fragments-vault/.claude/skills/save-fragment/SKILL.md?raw";
 
 ## What is Save Fragment?
 
@@ -64,3 +65,11 @@ The skill saves the fragment to your configured storage location (default: `~/Do
 **Tags:** #wisdom #time  
 **Saved:** 2025-01-15
 ```
+
+---
+
+## Install This Skill
+
+Copy the following code into your `.claude/skills/save-fragment/SKILL.md` file:
+
+<Code code={skillCode} lang="markdown" title="SKILL.md" />
