@@ -18,16 +18,16 @@ export const skillsComponents = {
 	img: Figure,
 	a: SmartLink,
 	p: (props: React.HTMLAttributes<HTMLParagraphElement>) => (
-		<p className="my-4 text-foreground text-base" {...props} />
+		<p className="my-5 text-foreground text-lg" {...props} />
 	),
 
 	h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-		<h1 className="mt-14 mb-4 text-3xl font-bold text-balance" {...props} />
+		<h1 className="mt-15 mb-5 text-4xl font-bold text-balance" {...props} />
 	),
 
 	h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
 		<h2
-			className="mt-10 mb-4 scroll-mt-18 text-foreground hover:text-foreground/90 text-2xl font-bold text-balance"
+			className="mt-11 mb-5 scroll-mt-18 text-foreground hover:text-foreground/90 text-3xl font-bold text-balance"
 			id={props.id}
 			{...props}
 		/>
@@ -35,7 +35,7 @@ export const skillsComponents = {
 
 	h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
 		<h3
-			className="mt-8 mb-4 scroll-m-28 text-lg text-foreground hover:text-foreground/90 font-bold [&+p]:!mt-4 *:[code]:text-xl"
+			className="mt-9 mb-5 scroll-m-28 text-2xl text-foreground hover:text-foreground/90 font-bold [&+p]:!mt-4 *:[code]:text-xl"
 			id={props.id}
 			{...props}
 		/>
@@ -43,7 +43,7 @@ export const skillsComponents = {
 
 	h4: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
 		<h4
-			className="mt-6 mb-4 scroll-m-28 text-base text-foreground hover:text-foreground/90 font-bold [&+p]:!mt-4 *:[code]:text-xl"
+			className="mt-7 mb-5 scroll-m-28 text-xl text-foreground hover:text-foreground/90 font-bold [&+p]:!mt-4 *:[code]:text-xl"
 			id={props.id}
 			{...props}
 		/>
@@ -59,14 +59,14 @@ export const skillsComponents = {
 
 	ul: (props: React.HTMLAttributes<HTMLUListElement>) => (
 		<ul
-			className="my-6 ml-6 list-disc ps-4 marker:text-primary-600 text-base"
+			className="my-7 ml-5 list-disc ps-4 marker:text-primary-600 text-lg"
 			{...props}
 		/>
 	),
 
 	ol: (props: React.HTMLAttributes<HTMLOListElement>) => (
 		<ol
-			className="list-decimal list-outside pl-6 mb-8 space-y-2 text-foreground text-base leading-relaxed"
+			className="list-decimal list-outside pl-5 mb-8 space-y-2 text-foreground text-lg leading-relaxed"
 			{...props}
 		/>
 	),

@@ -100,7 +100,7 @@
 
 /* Inline code styling (not inside pre blocks) */
 :not(pre) > code {
-	@apply rounded bg-slate-800 px-1 py-0.5 text-sm font-mono text-primary-300;
+	@apply rounded bg-slate-800 px-1 py-0.5 text-base font-mono text-primary-300;
 }
 
 /* Expressive Code customization */
