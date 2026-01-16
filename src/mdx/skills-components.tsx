@@ -22,12 +22,12 @@ export const skillsComponents = {
 	),
 
 	h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-		<h1 className="mt-15 mb-5 text-4xl font-bold text-balance" {...props} />
+		<h1 className="mt-15 mb-4 text-4xl font-bold text-balance" {...props} />
 	),
 
 	h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
 		<h2
-			className="mt-11 mb-5 scroll-mt-18 text-foreground hover:text-foreground/90 text-3xl font-bold text-balance"
+			className="mt-11 mb-4 scroll-mt-18 text-foreground hover:text-foreground/90 text-3xl font-bold text-balance"
 			id={props.id}
 			{...props}
 		/>
@@ -35,7 +35,7 @@ export const skillsComponents = {
 
 	h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
 		<h3
-			className="mt-9 mb-5 scroll-m-28 text-2xl text-foreground hover:text-foreground/90 font-bold [&+p]:!mt-4 *:[code]:text-xl"
+			className="mt-9 mb-4 scroll-m-28 text-2xl text-foreground hover:text-foreground/90 font-bold [&+p]:!mt-4 *:[code]:text-xl"
 			id={props.id}
 			{...props}
 		/>
@@ -43,7 +43,7 @@ export const skillsComponents = {
 
 	h4: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
 		<h4
-			className="mt-7 mb-5 scroll-m-28 text-xl text-foreground hover:text-foreground/90 font-bold [&+p]:!mt-4 *:[code]:text-xl"
+			className="mt-6 mb-4 scroll-m-28 text-xl text-foreground hover:text-foreground/90 font-bold [&+p]:!mt-4 *:[code]:text-xl"
 			id={props.id}
 			{...props}
 		/>
