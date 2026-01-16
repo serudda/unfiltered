@@ -22,17 +22,26 @@ Before creating the skill, ASK the user for this information:
 
 1. **Skill Name**
    - Ask: "What should this skill be called? (use lowercase with hyphens, e.g., `deploy-to-prod`)"
-   - If user gives a phrase, convert to kebab-case
 
 2. **Description**
    - Ask: "Describe what this skill does in 2-4 sentences. Be specific about WHEN and WHY to use it."
-   - The description is critical - it's how the agent decides to use the skill
 
-3. **Trigger Phrases**
+3. **Role & Identity**
+   - Ask: "What 'Role' should the agent adopt? (e.g., Senior Engineer, Investigative Journalist, QA Specialist)"
+   - Ask: "What are the core Principles to follow? (e.g., 'Safety first', 'Be skeptical', 'Favor speed')"
+   - **Proactive Assist**: If the user is unsure about principles, analyze their description/goal and suggest 3 strong principles (e.g., "Based on 'code review', I suggest: 1. Catch bugs early, 2. Be constructive, 3. Performance matters. Do these work?").
+
+4. **Triggers**
    - Ask: "What phrases or keywords should trigger this skill? (e.g., 'deploy', 'push to production', 'release')"
 
-4. **Core Instructions**
-   - Ask: "Walk me through the step-by-step process this skill should follow. What are the main actions?"
+5. **Inputs & Prerequisites**
+   - Ask: "What information or state is required BEFORE starting? (e.g., API keys, specific files, user input)"
+
+6. **The Workflow**
+   - Ask: "Walk me through the step-by-step process. Be precise—treat it like code."
+
+7. **Output Specification**
+   - Ask: "What exactly should be delivered at the end? (A file? A confirmation message? A summary?)"
 
 ### Optional Information
 
@@ -67,15 +76,28 @@ mkdir -p ~/.gemini/antigravity/skills/<skill-name>
 
 ### Step 2: Create SKILL.md
 
-Use this template structure:
+Use this **Master Template** structure. Exact adherence to this structure ensures the skill is deterministic and high-quality.
 
-```markdown
+````markdown
 ---
 name: <skill-name>
-description: <One or two sentences. Third person. Include keywords for when to use.>
+description: <Action verb> + <Context/When to use> + <Expected Result>.
 ---
 
 # <Skill Title>
+
+## Role & Objective
+
+**Role**: <Define the persona/mindset, e.g., "You are a strict code reviewer" or "You are an investigative journalist">.
+**Objective**: <One sentence on what success looks like>.
+
+### Core Principles
+
+1. **<Principle 1>** - <Brief explanation>
+2. **<Principle 2>** - <Brief explanation>
+3. **<Principle 3>** - <Brief explanation>
+
+---
 
 ## When to Use This Skill
 
@@ -85,45 +107,61 @@ description: <One or two sentences. Third person. Include keywords for when to u
 
 ---
 
-## Prerequisites (if any)
+## Prerequisites & Inputs
 
-- <Requirement 1>
-- <Requirement 2>
+Before proceeding, ensure you have the following information or state:
+
+| Variable/Input | Description   |
+| -------------- | ------------- |
+| `<VAR_NAME>`   | <What is it?> |
+| `<VAR_NAME_2>` | <What is it?> |
 
 ---
 
-## Step-by-Step Process
+## The Workflow
 
 ### Step 1: <First Action>
 
-<Instructions for step 1>
+<Specific instructions, commands to run, or questions to ask>
+
+```bash
+# Example command if applicable
+command here
+```
+````
 
 ### Step 2: <Second Action>
 
-<Instructions for step 2>
+<Logic: If X happens, do Y>
 
-(Continue for all steps...)
+### Step 3: <Third Action>
 
----
-
-## Examples
-
-### Example: <Scenario Name>
-
-<Show a concrete example of using the skill>
+...
 
 ---
 
-## Troubleshooting (optional)
+## Output Specification
 
-### <Problem 1>
+The final deliverable must match this format:
 
-<Solution>
+- **Format**: <File type, Terminal output, or Text block>
+- **Location**: <Where does it go?>
+- **Template**:
 
-### <Problem 2>
-
-<Solution>
+```text
+<Template of the final output>
 ```
+
+---
+
+## Troubleshooting
+
+| Issue     | Solution |
+| --------- | -------- |
+| <Error 1> | <Fix>    |
+| <Error 2> | <Fix>    |
+
+````
 
 ---
 
@@ -143,7 +181,7 @@ mkdir -p .agent/skills/<skill-name>/examples
 # Resources/templates
 mkdir -p .agent/skills/<skill-name>/resources
 # Add templates, configs, etc.
-```
+````
 
 ---
 
@@ -151,40 +189,26 @@ mkdir -p .agent/skills/<skill-name>/resources
 
 After creation, verify:
 
-1. SKILL.md has valid YAML frontmatter
-2. Description is clear and includes trigger keywords
-3. Steps are actionable and specific
-4. File is in the correct location
+1. **Frontmatter**: valid YAML `name` and `description`.
+2. **Role & Principles**: Are they clear enough to guide decision making?
+3. **Determinism**: Are the steps actionable (SOP style)?
+4. **Output**: Is the definition of "Done" clear?
 
 ---
 
 ## Best Practices for Writing Skills
 
-### Description Guidelines
+### 1. The "Workflow" Mindset
 
-✅ **Good descriptions:**
+Don't just write a prompt; write a program in English. Use logic, standard operating procedures (SOPs), and clear conditions.
 
-- "Deploys the application to production. Use when releasing a new version or pushing updates to live servers."
-- "Creates React components following project conventions. Use when adding new UI components."
+### 2. Define Inputs and Outputs
 
-❌ **Bad descriptions:**
+Treat the skill like a function. It takes arguments (Inputs) and returns a result (Output Specification).
 
-- "Helps with deployment" (too vague)
-- "Does stuff with components" (no keywords)
+### 3. Principles over Micro-management
 
-### Content Guidelines
-
-1. **Be Specific**: Include exact commands, file paths, and code snippets
-2. **Be Concise**: The agent reads the whole skill, so avoid unnecessary text
-3. **Be Complete**: Don't assume the agent knows project-specific conventions
-4. **Include Examples**: Real-world usage examples help the agent understand context
-
-### Structural Guidelines
-
-1. **One Skill = One Purpose**: Don't create "catch-all" skills
-2. **Clear Triggers**: List specific phrases/scenarios in "When to Use"
-3. **Numbered Steps**: Makes it easy to follow and verify
-4. **Troubleshooting**: Anticipate common issues
+Use the "Principles" section to handle edge cases. Instead of listing every possibility, give the agent a rule to decide (e.g., "Always favor speed over precision in this step").
 
 ---
 
@@ -193,77 +217,83 @@ After creation, verify:
 ### User provides:
 
 - **Name**: deploy-prod
-- **Description**: Deploys the application to production servers
-- **Triggers**: "deploy", "push to prod", "release to production"
-- **Steps**: Build → Test → Deploy → Verify
+- **Goal**: Safely deploy to Vercel
+- **Principles**: Safety first, no downtime
 
 ### Agent creates:
 
-**File**: `.agent/skills/deploy-prod/SKILL.md`
-
-```markdown
+````markdown
 ---
 name: deploy-prod
-description: Deploys the application to production servers. Use when releasing new versions, pushing updates, or when user says "deploy to prod" or "release".
+description: Deploys the application to production via Vercel CLI. Use when the user says "deploy" or "go live". Returns the live URL.
 ---
 
 # Deploy to Production
 
+## Role & Objective
+
+**Role**: You are a Release Manager.
+**Objective**: Deploy code to production with zero downtime and verify basic health.
+
+### Core Principles
+
+1. **Safety First**: Verify tests before pushing.
+2. **No Dirty States**: Never deploy uncommitted changes.
+3. **Verify, Don't Assume**: Check the URL after deployment.
+
+---
+
 ## When to Use This Skill
 
-- User wants to deploy to production
-- User says "push to prod", "release", "deploy"
-- User mentions "production deployment"
+- User says "deploy to prod"
+- User says "release this version"
 
 ---
 
-## Prerequisites
+## Prerequisites & Inputs
 
-- All tests must pass
-- User must have production credentials configured
-- Current branch should be `main` or `release/*`
-
----
-
-## Step-by-Step Process
-
-### Step 1: Run Tests
-
-\`\`\`bash
-npm run test
-\`\`\`
-
-Verify all tests pass before proceeding.
-
-### Step 2: Build for Production
-
-\`\`\`bash
-npm run build
-\`\`\`
-
-### Step 3: Deploy
-
-\`\`\`bash
-npm run deploy:prod
-\`\`\`
-
-### Step 4: Verify Deployment
-
-- Check the production URL
-- Verify key functionality works
-- Monitor logs for errors
+| Input          | Description                    |
+| -------------- | ------------------------------ |
+| `VERCEL_TOKEN` | Must be present in environment |
+| `Branch`       | Must be on 'main'              |
 
 ---
 
-## Troubleshooting
+## The Workflow
 
-### Build fails
+### Step 1: Pre-flight Check
 
-Check for TypeScript errors: \`npm run type-check\`
+Ensure workspace is clean and tests pass.
 
-### Deploy fails
+```bash
+git status --porcelain
+npm test
+```
+````
 
-Verify credentials: \`npm run verify-credentials\`
+### Step 2: Deploy
+
+Trigger the deployment.
+
+```bash
+vercel --prod
+```
+
+### Step 3: Validation
+
+Ping the returned URL to ensure 200 OK.
+
+---
+
+## Output Specification
+
+- **Deliverable**: Deployment Confirmation
+- **Format**:
+  > 🚀 **Deployment Successful**
+  >
+  > - URL: <url>
+  > - Time: <timestamp>
+
 ```
 
 ---
@@ -273,10 +303,11 @@ Verify credentials: \`npm run verify-credentials\`
 When the user triggers this skill, follow this flow:
 
 ```
+
 Agent: I'll help you create a new Antigravity skill. Let me gather some info:
 
 1. What should this skill be called? (lowercase with hyphens)
-User: <name>
+   User: <name>
 
 Agent: What does this skill do? (1-2 sentences, be specific)
 User: <description>
@@ -294,6 +325,7 @@ Agent: [Creates the skill file]
 
 Done! I've created your skill at `.agent/skills/<name>/SKILL.md`.
 You can now use it by asking me to <trigger phrase>.
+
 ```
 
 ---
@@ -306,3 +338,4 @@ After creating the skill, remind the user:
 - [ ] Test the skill by triggering it
 - [ ] Add to version control if project-specific
 - [ ] Share with team if applicable
+```
