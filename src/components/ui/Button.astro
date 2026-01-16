@@ -1,0 +1,104 @@
+---
+/**
+ * Button component - Server-rendered, SEO-friendly
+ * 
+ * For static buttons that don't need client-side interactivity,
+ * use this Astro component. For interactive buttons, use React.
+ */
+import { tv } from 'tailwind-variants';
+
+export type ButtonSize = 'sm' | 'base' | 'lg' | 'iconSm' | 'iconBase' | 'iconLg';
+export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline' | 'destructive' | 'mono';
+
+interface Props {
+  /** Button size */
+  size?: ButtonSize;
+  /** Button variant */
+  variant?: ButtonVariant;
+  /** If true, button takes full width */
+  isFullWidth?: boolean;
+  /** Render as link (with href) */
+  href?: string;
+  /** Download attribute for link buttons */
+  download?: boolean | string;
+  /** Additional classes */
+  class?: string;
+  /** Button type (for form buttons) */
+  type?: 'button' | 'submit' | 'reset';
+  /** Disabled state */
+  disabled?: boolean;
+}
+
+const button = tv({
+  base: [
+    'inline-flex items-center justify-center gap-2',
+    '[&_svg]:shrink-0 [&_svg]:size-4',
+    'text-sm font-medium text-center whitespace-nowrap',
+    'transition-colors duration-100 ease-out',
+    'cursor-pointer select-none',
+    'disabled:pointer-events-none disabled:opacity-30',
+    'rounded-lg',
+  ],
+  variants: {
+    
+      size: {
+      sm: 'h-8 rounded gap-1.5 px-3 has-[>svg]:px-2.5',
+      base: 'h-9 px-4 py-2 rounded has-[>svg]:px-3',
+      lg: 'h-10 rounded-md px-6 has-[>svg]:px-4',
+      iconSm: 'size-8 rounded',
+      iconBase: 'size-9 rounded',
+      iconLg: 'size-10 rounded-md',
+    },
+    variant: {
+      primary: ['bg-primary-600 hover:bg-primary-700', 'text-white'],
+      outline: ['border border-input', 'hover:bg-secondary/80', 'text-secondary-foreground'],
+      mono: ['bg-white hover:bg-white/80', 'text-black'],
+      ghost: ['bg-transparent hover:bg-secondary/80', 'text-secondary-foreground'],
+      secondary: ['bg-secondary hover:bg-secondary/70', 'text-secondary-foreground'],
+      destructive: ['bg-red-600 hover:bg-red-500/80', 'text-white'],
+    },
+    isFullWidth: {
+      true: 'w-full',
+    },
+  },
+  defaultVariants: {
+    size: 'base',
+    variant: 'secondary',
+    isFullWidth: false,
+  },
+});
+
+const { 
+  size = 'base', 
+  variant = 'secondary', 
+  isFullWidth = false,
+  href,
+  download,
+  class: className,
+  type = 'button',
+  disabled = false,
+  ...rest 
+} = Astro.props;
+
+const classes = button({ size, variant, isFullWidth, className });
+---
+
+{href ? (
+  <a 
+    href={href} 
+    download={download} 
+    class={classes}
+    {...rest}
+  >
+    <slot />
+  </a>
+) : (
+  <button 
+    type={type} 
+    disabled={disabled} 
+    class={classes}
+    {...rest}
+  >
+    <slot />
+  </button>
+)}
