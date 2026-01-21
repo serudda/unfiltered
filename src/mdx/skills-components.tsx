@@ -6,6 +6,7 @@ import Callout from "@/components/mdx/Callout.astro";
 import Divider from "@/components/mdx/Divider.astro";
 import Quote from "@/components/mdx/Quote.astro";
 import Audio from "@/components/mdx/Audio.astro";
+import CodeBlock from "@/components/mdx/CodeBlock.astro";
 import InstallationCard from "@/components/skills/InstallationCard.astro";
 
 /**
@@ -89,5 +90,6 @@ export const skillsComponents = {
 	Callout,
 	Divider,
 	Audio,
+	CodeBlock,
 	InstallationCard,
 };

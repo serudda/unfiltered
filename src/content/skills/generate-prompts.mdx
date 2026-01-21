@@ -1,0 +1,117 @@
+---
+name: "Generate Prompts"
+tagline: "Create well-structured, verifiable, low-hallucination prompts"
+description: "A prompt engineering skill that helps you craft clear, effective prompts using meta-prompting best practices and expert persona coordination."
+version: "1.0.0"
+lastUpdated: 2025-01-21
+flow:
+  - "Request the topic and goal of the prompt."
+  - "Refine the task with purpose and expected outputs."
+  - "Decompose complex tasks and assign expert personas."
+  - "Minimize hallucination with verification steps."
+  - "Define the output format and constraints."
+  - "Generate the final structured prompt."
+  - "Verify and deliver the refined prompt."
+command: "/generate-prompt"
+order: 1
+---
+
+import CodeBlock from "@/components/mdx/CodeBlock.astro";
+import skillCode from "../../external/life-so/.claude/skills/prompt-generator/SKILL.md?raw";
+
+## Usage
+
+```bash frame="none"
+/generate-prompt
+```
+
+In natural language:
+
+```bash frame="none"
+Generate a prompt for a code review assistant
+```
+
+Or be more specific:
+
+```bash frame="none"
+Create a prompt for an AI that helps me write technical documentation with minimal hallucination
+```
+
+The Agent will guide you through:
+
+- `Topic`: What is the main goal or role of the system?
+- `Purpose`: What outputs do you expect?
+- `Factual Accuracy`: How should uncertain information be handled?
+- `Output Format`: How should the final content be structured?
+
+## The Flow
+
+### 1. Request the Topic
+
+The agent asks for the primary goal or role. If ambiguous, minimal clarifying questions are asked.
+
+### 2. Refine the Task
+
+Confirms purpose, expected outputs, and data sources. Encourages specifying how to handle factual accuracy.
+
+### 3. Decompose & Assign Experts
+
+For complex tasks, breaks the query into subtasks and summons specialized "expert" personas (e.g., "Expert Mathematician," "Expert Python") to solve or verify each part.
+
+### 4. Minimize Hallucination
+
+Instructs the system to verify or disclaim if uncertain. Encourages referencing specific data sources.
+
+### 5. Define Output Format
+
+Checks how you want the final output—bullets, steps, structured template—with disclaimers if data is incomplete.
+
+### 6. Generate the Prompt
+
+Consolidates all requirements into a cohesive prompt with role, context, instructions, constraints, and format.
+
+### 7. Verification and Delivery
+
+Presents the final refined prompt, organized and ready to use.
+
+## Output Format
+
+The generated prompt follows this structure:
+
+```markdown
+[Short and direct role definition, emphasizing verification and disclaimers for uncertainty.]
+
+Context
+[User's task, goals, or background. Summarize clarifications gleaned from user input.]
+
+Instructions
+
+1. [Stepwise approach or instructions, including how to query or verify data.]
+2. [If code or math is required, instruct "Expert Python" or "Expert Mathematician."]
+3. [Steps on how to handle uncertain or missing information.]
+
+Constraints
+[List relevant limitations (e.g., time, style, word count, references).]
+
+Output Format
+[Specify exactly how the final content should be structured.]
+
+Reasoning
+[Include only if user explicitly desires a chain-of-thought. Otherwise, omit.]
+
+Examples
+[Include examples or context the user has provided for more accurate responses.]
+```
+
+---
+
+## Installation
+
+Copy the following instructions into your `.claude/skills/prompt-generator/SKILL.md` file:
+
+<CodeBlock
+	code={skillCode}
+	lang="markdown"
+	caption="Based on the prompt shared by Dan Koe in the video “I Watched Dan Koe Break Down His AI Workflow OMG”
+"
+/>
