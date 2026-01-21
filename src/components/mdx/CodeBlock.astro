@@ -1,0 +1,40 @@
+---
+/**
+ * CodeBlock - Wrapper for Code component with caption support
+ * Uses same caption styling as Figure.astro for consistency
+ */
+import { Code } from "astro-expressive-code/components";
+
+interface Props {
+  code: string;
+  lang?: string;
+  title?: string;
+  caption?: string;
+  frame?: "code" | "terminal" | "none" | "auto";
+  wrap?: boolean;
+}
+
+const { 
+  code, 
+  lang = "text",
+  title,
+  caption,
+  frame,
+  wrap = true,
+} = Astro.props;
+---
+
+<figure class="my-4">
+  <Code 
+    code={code} 
+    lang={lang} 
+    title={title}
+    frame={frame}
+    wrap={wrap}
+  />
+  {caption && (
+    <figcaption class="mt-2 ml-1 text-sm text-muted-foreground">
+      {caption}
+    </figcaption>
+  )}
+</figure>

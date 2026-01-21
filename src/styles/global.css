@@ -107,7 +107,3 @@
 .expressive-code .copy button {
 	opacity: 1 !important;
 }
-
-.expressive-code {
-	@apply my-4;
-}

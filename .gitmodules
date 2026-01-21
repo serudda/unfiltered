@@ -1,3 +1,8 @@
 [submodule "src/external/fragments-vault"]
 	path = src/external/fragments-vault
 	url = https://github.com/serudda/fragments-vault.git
+
+[submodule "src/external/life-so"]
+	path = src/external/life-so
+	url = https://github.com/serudda/life-so.git
+	
