@@ -25,16 +25,23 @@ const { frontmatter, canonical, vault } = Astro.props;
   <main class="py-20">
     <article>
       <!-- Vault Breadcrumb (if skill belongs to a vault) -->
-      {vault && (
-        <nav class="mb-6">
+      <nav class="mb-6">
+        {vault ? (
           <a 
             href={`/skills/vaults/${vault.slug}/`}
             class="text-sm text-muted-foreground hover:text-primary-300 transition-colors"
           >
             ← Back to {vault.data.name} Vault
           </a>
-        </nav>
-      )}
+          ) : (
+          <a 
+            href={'/skills/'}
+            class="text-sm text-muted-foreground hover:text-primary-300 transition-colors"
+          >
+            ← Back to Skills
+          </a>
+        )}
+      </nav>
 
       <!-- Vault Header -->
       <header>        
